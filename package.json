@@ -1,0 +1,25 @@
+{
+  "name": "javafx-assignment",
+  "version": "1.0.0",
+  "description": "Assignment for CS102 Spring 2024",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/notzune/javafx-assignment.git"
+  },
+  "author": "Zeyad Rashed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/notzune/javafx-assignment/issues"
+  },
+  "homepage": "https://github.com/notzune/javafx-assignment#readme",
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "semantic-release": "^23.0.2"
+  }
+}
