@@ -19,6 +19,7 @@ public class CartItem {
     private Product product;
     private int quantity;
     private double discountRate;
+    private final double MARKUP = 0.50; // apply a 50% mark up
 
     /**
      * Constructs a new CartItem with the given product and quantity.
@@ -107,12 +108,13 @@ public class CartItem {
     }
 
     /**
-     * Calculates the total price for this item before any discounts are applied.
+     * Calculates the total marked up price for this item before any discounts are applied.
      *
      * @return Total price before discount.
      */
     public double getTotalPriceBeforeDiscount() {
-        return product.getPrice() * quantity;
+        double markup =  product.getPrice() * quantity * MARKUP;
+        return product.getPrice() * quantity + markup;
     }
 
     /**

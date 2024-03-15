@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="chore: update workspace" />
+    <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="feat: add methods to allow for discounts to be applied in the future" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,7 +102,7 @@
       <updated>1710276327237</updated>
       <workItem from="1710276330980" duration="2775000" />
       <workItem from="1710441558941" duration="7840000" />
-      <workItem from="1710515772456" duration="2117000" />
+      <workItem from="1710515772456" duration="2421000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />
@@ -208,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710537590587</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="feat: add methods to allow for discounts to be applied in the future">
+      <option name="closed" value="true" />
+      <created>1710541598023</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1710541598023</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,6 +237,7 @@
     <MESSAGE value="style: update method comments + clarity" />
     <MESSAGE value="feat: add method to clear cart" />
     <MESSAGE value="chore: update workspace" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: update workspace" />
+    <MESSAGE value="feat: add methods to allow for discounts to be applied in the future" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add methods to allow for discounts to be applied in the future" />
   </component>
 </project>
