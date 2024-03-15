@@ -59,6 +59,28 @@ public class Cart {
     }
 
     /**
+     * Calculates the total cost of all items in the cart before any discounts are applied.
+     *
+     * @return The total cost before discounts.
+     */
+    public double getTotalCostBeforeDiscounts() {
+        return items.stream()
+                .mapToDouble(CartItem::getTotalPriceBeforeDiscount)
+                .sum();
+    }
+
+    /**
+     * Calculates the total cost of all items in the cart after applying discounts.
+     *
+     * @return The total cost after discounts.
+     */
+    public double getTotalCostAfterDiscounts() {
+        return items.stream()
+                .mapToDouble(CartItem::getTotalPriceAfterDiscount)
+                .sum();
+    }
+
+    /**
      * Clears all items from the cart.
      */
     public void clearCart() {

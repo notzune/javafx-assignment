@@ -18,16 +18,31 @@ public class CartItem {
 
     private Product product;
     private int quantity;
+    private double discountRate;
 
     /**
-     * Constructs a new CartItem with the given product and quantity;
+     * Constructs a new CartItem with the given product and quantity.
      *
      * @param product   the product associated with this item in the cart.
      * @param quantity  the quantity of the product.
      */
     public CartItem(Product product, int quantity) {
-        this. product = product;
+        this.product = product;
         this.quantity = quantity;
+        this.discountRate = 0; // Default to no discount
+    }
+
+    /**
+     * Constructs a new CartItem with the given product, quantity, and discount.
+     *
+     * @param product       the product associated with this item in the cart.
+     * @param quantity      the quantity of the product.
+     * @param discountRate  the applied discounted rate to the item.
+     */
+    public CartItem(Product product, int quantity, double discountRate) {
+        this.product = product;
+        this.quantity = quantity;
+        this.discountRate = discountRate;
     }
 
     /**
@@ -58,6 +73,24 @@ public class CartItem {
     }
 
     /**
+     * Gets the current discount rate.
+     *
+     * @return Discount rate (double)
+     */
+    public double getDiscountRate() {
+        return  discountRate;
+    }
+
+    /**
+     * Sets the discount rate.
+     *
+     * @param discountRate the rate to be applied to this item.
+     */
+    public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;
+    }
+
+    /**
      * Increases the quantity by one.
      */
     public void add() {
@@ -71,6 +104,25 @@ public class CartItem {
      */
     public void add(int amount) {
         this.quantity += amount;
+    }
+
+    /**
+     * Calculates the total price for this item before any discounts are applied.
+     *
+     * @return Total price before discount.
+     */
+    public double getTotalPriceBeforeDiscount() {
+        return product.getPrice() * quantity;
+    }
+
+    /**
+     * Calculates the total price for this item after applying the discount.
+     *
+     * @return Total price after discount.
+     */
+    public double getTotalPriceAfterDiscount() {
+        double discountAmount = getTotalPriceBeforeDiscount() * (discountRate / 100);
+        return getTotalPriceBeforeDiscount() - discountAmount;
     }
 
     /**
