@@ -1,18 +1,19 @@
 package xyz.zuner.javafxassignment.objects;
 
 /**
- * Abstract Product Object
- *
+ * </p>
+ * Abstract Product Object -
  * This class provides an object for instantiating product items.
+ * </p>
  *
- * 21:198:102/02: Computers and Programming II
- * JavaFX Assignment
- * Rutgers ID - 199009651
+ * <p>21:198:102/02 Computers and Programming II</p>
+ * <p>JavaFX Assignment</p>
+ * <p>Rutgers ID: 199009651</p>
  *
  * @author Zeyad "zmr15" Rashed
  * @mailto zmr15@scarletmail.rutgers.edu
  * @created 3/14/24, Thursday
- **/
+ */
 public abstract class Product {
 
     protected String name;
