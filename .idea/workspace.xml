@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="style: fix class header formatting">
+    <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="style: fix typo">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/exceptions/ProductNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/exceptions/ProductNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +109,7 @@
       <updated>1710276327237</updated>
       <workItem from="1710276330980" duration="2775000" />
       <workItem from="1710441558941" duration="7840000" />
-      <workItem from="1710515772456" duration="591000" />
+      <workItem from="1710515772456" duration="1029000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />
@@ -170,7 +175,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710532328098</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="style: fix typo">
+      <option name="closed" value="true" />
+      <created>1710532385972</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710532385972</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,6 +199,7 @@
     <MESSAGE value="feat: begin new inventory object" />
     <MESSAGE value="feat: adds ProductNotFoundException.java" />
     <MESSAGE value="style: fix class header formatting" />
-    <option name="LAST_COMMIT_MESSAGE" value="style: fix class header formatting" />
+    <MESSAGE value="style: fix typo" />
+    <option name="LAST_COMMIT_MESSAGE" value="style: fix typo" />
   </component>
 </project>
