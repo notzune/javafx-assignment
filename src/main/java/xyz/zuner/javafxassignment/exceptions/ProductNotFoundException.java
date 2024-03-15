@@ -16,6 +16,6 @@ package xyz.zuner.javafxassignment.exceptions;
 public class ProductNotFoundException extends Exception {
 
     public ProductNotFoundException(String message) {
-        super("Product could not found in the system!");
+        super("Product not found in the system!");
     }
 }
