@@ -14,12 +14,12 @@ package xyz.zuner.javafxassignment.objects;
  * @mailto zmr15@scarletmail.rutgers.edu
  * @created 3/14/24, Thursday
  */
-public abstract class Product {
+public class Product {
 
-    protected String name;
-    protected String UPC; // universal product code
-    protected int quantity;
-    protected double price; // manufacturer's price
+    private String name;
+    private String UPC; // universal product code
+    private int quantity;
+    private double price; // manufacturer's price
 
     /**
      * Instantiates a new product object
