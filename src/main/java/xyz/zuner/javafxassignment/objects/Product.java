@@ -2,8 +2,8 @@ package xyz.zuner.javafxassignment.objects;
 
 /**
  * </p>
- * Abstract Product Object -
- * This class provides an object for instantiating product items.
+ *      Abstract Product Object -
+ *      This class provides an object for instantiating product items.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
@@ -19,14 +19,14 @@ public abstract class Product {
     protected String name;
     protected String UPC; // universal product code
     protected int quantity;
-    protected double price;
+    protected double price; // manufacturer's price
 
     /**
      * Instantiates a new product object
      *
      * @param name  the name of the product
      * @param UPC   the Universal Product Code
-     * @param price the price of the object
+     * @param price the manufacturer's price of the object
      */
     public Product(String name, String UPC, double price) {
         this.name = name;

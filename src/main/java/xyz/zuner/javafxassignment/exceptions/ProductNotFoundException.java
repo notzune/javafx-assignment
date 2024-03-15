@@ -2,7 +2,7 @@ package xyz.zuner.javafxassignment.exceptions;
 
 /**
  * <p>
- * Exception message for if a product is not found in the system/inventory.
+ *      Exception message for if a product is not found in the system/inventory.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>

@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * </p>
- * Manages the inventory of the store.
+ *      Manages the inventory of the store.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>

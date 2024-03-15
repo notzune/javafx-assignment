@@ -2,7 +2,7 @@ package xyz.zuner.javafxassignment.objects;
 
 /**
  * <p>
- * Represents an item in the shopping cart
+ *      Represents an item in the shopping cart
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
@@ -39,6 +39,11 @@ public class CartItem {
         return product;
     }
 
+    /**
+     * Represents the quantity in the cart for this item
+     *
+     * @return quantity (int)
+     */
     public int getQuantity() {
         return quantity;
     }
@@ -75,5 +80,13 @@ public class CartItem {
         if (this.quantity > 0) {
             this.quantity--;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "product=" + product +
+                ", quantity=" + quantity +
+                '}';
     }
 }

@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 /**
  * <p>
- * Main class.
+ *      Main class.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
