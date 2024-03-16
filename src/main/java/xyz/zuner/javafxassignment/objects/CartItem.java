@@ -17,7 +17,6 @@ package xyz.zuner.javafxassignment.objects;
  */
 public class CartItem {
 
-    private final double MARKUP = 0.50; // apply a 50% mark up
     private Product product;
     private int quantity;
     private double discountRate;
@@ -106,26 +105,6 @@ public class CartItem {
      */
     public void add(int amount) {
         this.quantity += amount;
-    }
-
-    /**
-     * Calculates the total marked up price for this item before any discounts are applied.
-     *
-     * @return Total price before discount.
-     */
-    public double getTotalPriceBeforeDiscount() {
-        double markup = product.getPrice() * quantity * MARKUP;
-        return product.getPrice() * quantity + markup;
-    }
-
-    /**
-     * Calculates the total price for this item after applying the discount.
-     *
-     * @return Total price after discount.
-     */
-    public double getTotalPriceAfterDiscount() {
-        double discountAmount = getTotalPriceBeforeDiscount() * (discountRate / 100);
-        return getTotalPriceBeforeDiscount() - discountAmount;
     }
 
     /**
