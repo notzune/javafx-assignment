@@ -1,5 +1,7 @@
 package xyz.zuner.javafxassignment.objects;
 
+import java.net.URL;
+
 /**
  * </p>
  *      Represents a product in stock in the store.
@@ -30,7 +32,7 @@ public class Product {
     public Product(String name, String UPC, double price) {
         this.name = name;
         this.UPC = UPC;
-        this.quantity = 0; // Default quantity set to 0
+        this.quantity = 0; // default quantity set to 0
         this.price = price;
     }
 
@@ -46,7 +48,7 @@ public class Product {
     /**
      * Gets the Universal Product Code of this item
      *
-     * @return String
+     * @return UPC (String)
      */
     public String getUPC() {
         return UPC;
@@ -55,7 +57,7 @@ public class Product {
     /**
      * Gets the quantity of the item
      *
-     * @return int
+     * @return quantity (int)
      */
     public int getQuantity() {
         return quantity;
@@ -92,17 +94,35 @@ public class Product {
     /**
      * Gets the product name.
      *
-     * @return String
+     * @return the product name (String)
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Gets the path to an image representing the product, if none is found, defaults to "No Image"
+     *
+     * @return image path (String)
+     */
+    public String getImagePath() {
+        String imagePath = "/assets/products/" + this.UPC + ".jpg";
+
+        URL imageUrl = getClass().getResource(imagePath);
+        if (imageUrl != null) {
+            return imageUrl.toExternalForm();
+        } else {
+            // fallback to a default image if the specific product image is not found
+            imageUrl = getClass().getResource("/assets/products/no-image-available.jpg");
+            return imageUrl != null ? imageUrl.toExternalForm() : null;
+        }
+    }
+
+    /**
      * Checks if the given UPC matches the product's UPC.
      *
-     * @param UPC The UPC to compare with the product's UPC.
-     * @return boolean True if the UPCs match, false otherwise.
+     * @param UPC the UPC to compare with the product's UPC.
+     * @return boolean true if the UPCs match, false otherwise.
      */
     public boolean equals(String UPC) {
         return this.UPC.equals(UPC);
