@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import xyz.zuner.javafxassignment.objects.Inventory;
 import xyz.zuner.javafxassignment.objects.Product;
+import xyz.zuner.javafxassignment.util.PricingUtil;
 
 /**
  * <p>
@@ -54,11 +55,16 @@ public class StoreApplication extends Application {
         HBox header = new HBox();
         header.setPadding(new Insets(15));
         header.setAlignment(Pos.CENTER);
-        Label title = new Label("Zeyad's Discount Electronics Store!!!1!!");
+        Label title = new Label("Z's Discount Electronics Store!");
         header.getChildren().add(title);
         return header;
     }
 
+    /**
+     * Initializes the store's inventory.
+     *
+     * @return Inventory
+     */
     private Inventory initInventory() {
         Inventory inventory = new Inventory();
 
@@ -84,7 +90,8 @@ public class StoreApplication extends Application {
         Label nameLabel = new Label(product.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #333;");
 
-        Label priceLabel = new Label(String.format("$%.2f", product.getPrice()));
+        double displayPrice = PricingUtil.getMarkedUpPrice(product);
+        Label priceLabel = new Label(String.format("$%.2f", displayPrice));
         priceLabel.setStyle("-fx-font-size: 14px;");
 
         Button addButton = new Button("Add to cart");

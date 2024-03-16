@@ -21,7 +21,7 @@ public class Product {
     private String name;
     private String UPC; // universal product code
     private int quantity;
-    private double price; // manufacturer's price
+    private double price; // manufacturer's price (MSRP)
 
     /**
      * Instantiates a new product object
@@ -38,9 +38,9 @@ public class Product {
     }
 
     /**
-     * Gets the price of the item
+     * Gets the MSRP of the item
      *
-     * @return double
+     * @return MSRP (double)
      */
     public double getPrice() {
         return price;
