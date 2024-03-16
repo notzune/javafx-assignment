@@ -2,8 +2,7 @@ package xyz.zuner.javafxassignment.objects;
 
 /**
  * </p>
- *      Abstract Product Object -
- *      This class provides an object for instantiating product items.
+ *      Represents a product in stock in the store.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
