@@ -1,0 +1,29 @@
+name: Generate Changelog
+
+on:
+  push:
+    branches:
+      - main  # Replace 'main' with your default branch name if different
+
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Load Environment Variables
+        run: .github/workflows/scripts/set-env-vars.sh
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate Changelog and Bump Version
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }} # for some reason github actions don't trigger other github actions
+        run: npx semantic-release

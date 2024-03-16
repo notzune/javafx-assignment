@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "DEFAULT_BRANCH=main" >> $GITHUB_ENV
+echo "NODE_VERSION=20.x" >> $GITHUB_ENV
+echo "PYTHON_VERSION=3.9" >> $GITHUB_ENV
+echo "JAVA_VERSION=21" >> $GITHUB_ENV
+echo "JAVA_DISTRIBUTION=temurin" >> $GITHUB_ENV

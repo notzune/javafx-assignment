@@ -1,0 +1,61 @@
+name: Maven Build and Release
+
+on:
+  release:
+    types: [ created ]  # Trigger when a new release is created
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Load Environment Variables
+        run: .github/workflows/scripts/set-env-vars.sh
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Extract GitHub release tag
+        run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF#refs/tags/} | cut -c 2-)" >> $GITHUB_ENV
+
+      - name: Print release version
+        run: echo "Release version is ${{ env.RELEASE_VERSION }}"
+
+      - name: Update Maven project version
+        run: mvn versions:set -DnewVersion=${{ env.RELEASE_VERSION }} -X
+
+      - name: Commit updated pom.xml
+        run: .github/workflows/scripts/commit-updates.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Maven Clean Install
+        run: mvn clean install
+
+      - name: Extract artifact ID from pom.xml
+        run: |
+          ARTIFACT_ID=$(grep "<artifactId>" pom.xml | head -1 | sed -e 's/<[\/]*artifactId>//g' -e 's/^[[:space:]]*//')
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV
+
+      - name: Upload JAR files to GitHub Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./target/${{ env.ARTIFACT_ID }}-${{ env.RELEASE_VERSION }}.jar
+          asset_name: ${{ env.ARTIFACT_ID }}-${{ env.RELEASE_VERSION }}.jar
+          asset_content_type: application/java-archive
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
