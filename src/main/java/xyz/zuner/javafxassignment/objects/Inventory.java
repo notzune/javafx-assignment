@@ -66,4 +66,16 @@ public class Inventory {
             product.setQuantity(quantity);
         }
     }
+
+    /**
+     * Updates the quantity of a product in the inventory.
+     *
+     * @param product   the product to update
+     * @param quantity  the new quantity to set
+     */
+    public void updateProductQuantity(Product product, int quantity) {
+        if (product != null) {
+            product.setQuantity(quantity);
+        }
+    }
 }
