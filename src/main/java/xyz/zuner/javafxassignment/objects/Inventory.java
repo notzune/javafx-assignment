@@ -78,4 +78,13 @@ public class Inventory {
             product.setQuantity(quantity);
         }
     }
+
+    /**
+     * Retrieves all products in the inventory.
+     *
+     * @return a map of products keyed by their UPC.
+     */
+    public Map<String, Product> getProducts() {
+        return this.products;
+    }
 }
