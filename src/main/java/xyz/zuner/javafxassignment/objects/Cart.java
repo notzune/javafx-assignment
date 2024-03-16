@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import xyz.zuner.javafxassignment.util.PricingUtil;
+
+
 /**
  * <p>
  * Represents a shopping cart object.
@@ -61,22 +64,22 @@ public class Cart {
     /**
      * Calculates the total cost of all items in the cart before any discounts are applied.
      *
-     * @return The total cost before discounts.
+     * @return the total cost before discounts.
      */
     public double getTotalCostBeforeDiscounts() {
         return items.stream()
-                .mapToDouble(CartItem::getTotalPriceBeforeDiscount)
+                .mapToDouble(item -> PricingUtil.getTotalPriceBeforeDiscount(item.getProduct(), item.getQuantity()))
                 .sum();
     }
 
     /**
      * Calculates the total cost of all items in the cart after applying discounts.
      *
-     * @return The total cost after discounts.
+     * @return the total cost after discounts.
      */
     public double getTotalCostAfterDiscounts() {
         return items.stream()
-                .mapToDouble(CartItem::getTotalPriceAfterDiscount)
+                .mapToDouble(item -> PricingUtil.getTotalPriceAfterDiscount(item.getProduct(), item.getQuantity(), item.getDiscountRate()))
                 .sum();
     }
 
