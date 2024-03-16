@@ -19,6 +19,7 @@ import xyz.zuner.javafxassignment.objects.Product;
 public class PricingUtil {
 
     private static final double MARKUP = 0.50; // apply a 50% mark up
+    private static final double TAX_RATE = 0.07; // sales tax rate
 
     /**
      * Gets the manufacturer's price for the product (MSRP)
@@ -41,15 +42,25 @@ public class PricingUtil {
     }
 
     /**
+     * Calculates the after tax price of the (marked-up) product.
+     *
+     * @param product the product to calculate the price for.
+     * @return the after-tax price on the marked-up price for a single unit of the product.
+     */
+    public static double getAfterTaxPrice(Product product) {
+        return getMarkedUpPrice(product) * (1 + TAX_RATE);
+    }
+
+    /**
      * Calculates the total price for a product with a specific quantity before any discounts are applied.
      *
      * @param product  the product to calculate the price for.
      * @param quantity the quantity of the product.
-     * @return total marked-up price for the specified quantity of the product.
+     * @return total marked-up after-tax price for the specified quantity of the product.
      */
     public static double getTotalPriceBeforeDiscount(Product product, int quantity) {
         double markedUpPrice = getMarkedUpPrice(product);
-        return markedUpPrice * quantity;
+        return markedUpPrice * quantity + (1 + TAX_RATE);
     }
 
     /**
