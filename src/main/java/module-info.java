@@ -9,5 +9,6 @@ module xyz.zuner.javafxassignment {
     requires org.kordamp.bootstrapfx.core;
 
     opens xyz.zuner.javafxassignment to javafx.fxml;
+    opens xyz.zuner.javafxassignment.objects to javafx.base, javafx.fxml;
     exports xyz.zuner.javafxassignment;
 }
