@@ -5,13 +5,14 @@ import java.util.Map;
 
 /**
  * </p>
- *      Manages the inventory of the store.
+ * Manages the inventory of the store.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
  * <p>JavaFX Assignment</p>
  * <p>Rutgers ID: 199009651</p>
  * <br>
+ *
  * @author Zeyad "zmr15" Rashed
  * @mailto zmr15@scarletmail.rutgers.edu
  * @created 3/14/24, Thursday
@@ -70,8 +71,8 @@ public class Inventory {
     /**
      * Updates the quantity of a product in the inventory.
      *
-     * @param product   the product to update
-     * @param quantity  the new quantity to set
+     * @param product  the product to update
+     * @param quantity the new quantity to set
      */
     public void updateProductQuantity(Product product, int quantity) {
         if (product != null) {

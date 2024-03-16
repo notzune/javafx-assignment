@@ -2,13 +2,14 @@ package xyz.zuner.javafxassignment.objects;
 
 /**
  * <p>
- *      Represents an item in the shopping cart
+ * Represents an item in the shopping cart
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
  * <p>JavaFX Assignment</p>
  * <p>Rutgers ID: 199009651</p>
  * <br>
+ *
  * @author Zeyad "zmr15" Rashed
  * @mailto zmr15@scarletmail.rutgers.edu
  * @created 3/14/24, Thursday
@@ -16,16 +17,16 @@ package xyz.zuner.javafxassignment.objects;
  */
 public class CartItem {
 
+    private final double MARKUP = 0.50; // apply a 50% mark up
     private Product product;
     private int quantity;
     private double discountRate;
-    private final double MARKUP = 0.50; // apply a 50% mark up
 
     /**
      * Constructs a new CartItem with the given product and quantity.
      *
-     * @param product   the product associated with this item in the cart.
-     * @param quantity  the quantity of the product.
+     * @param product  the product associated with this item in the cart.
+     * @param quantity the quantity of the product.
      */
     public CartItem(Product product, int quantity) {
         this.product = product;
@@ -36,9 +37,9 @@ public class CartItem {
     /**
      * Constructs a new CartItem with the given product, quantity, and discount.
      *
-     * @param product       the product associated with this item in the cart.
-     * @param quantity      the quantity of the product.
-     * @param discountRate  the applied discounted rate to the item.
+     * @param product      the product associated with this item in the cart.
+     * @param quantity     the quantity of the product.
+     * @param discountRate the applied discounted rate to the item.
      */
     public CartItem(Product product, int quantity, double discountRate) {
         this.product = product;
@@ -79,7 +80,7 @@ public class CartItem {
      * @return Discount rate (double)
      */
     public double getDiscountRate() {
-        return  discountRate;
+        return discountRate;
     }
 
     /**
@@ -113,7 +114,7 @@ public class CartItem {
      * @return Total price before discount.
      */
     public double getTotalPriceBeforeDiscount() {
-        double markup =  product.getPrice() * quantity * MARKUP;
+        double markup = product.getPrice() * quantity * MARKUP;
         return product.getPrice() * quantity + markup;
     }
 

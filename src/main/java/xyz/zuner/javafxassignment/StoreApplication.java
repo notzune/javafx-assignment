@@ -3,33 +3,38 @@ package xyz.zuner.javafxassignment;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import xyz.zuner.javafxassignment.objects.Inventory;
 import xyz.zuner.javafxassignment.objects.Product;
 
 /**
  * <p>
- *      Main class.
+ * Main class.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
  * <p>JavaFX Assignment</p>
  * <p>Rutgers ID: 199009651</p>
  * <br>
+ *
  * @author Zeyad "zmr15" Rashed
  * @mailto zmr15@scarletmail.rutgers.edu
  * @created 3/14/24, Thursday
  */
 public class StoreApplication extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) {
@@ -116,9 +121,5 @@ public class StoreApplication extends Application {
         }
 
         return productGrid;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

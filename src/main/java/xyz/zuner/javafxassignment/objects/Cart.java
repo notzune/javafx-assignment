@@ -6,7 +6,7 @@ import java.util.Optional;
 
 /**
  * <p>
- *     Represents a shopping cart object.
+ * Represents a shopping cart object.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>

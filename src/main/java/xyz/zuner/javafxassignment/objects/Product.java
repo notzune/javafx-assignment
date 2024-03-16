@@ -4,13 +4,14 @@ import java.net.URL;
 
 /**
  * </p>
- *      Represents a product in stock in the store.
+ * Represents a product in stock in the store.
  * </p>
  * <br>
  * <p>21:198:102/02 Computers and Programming II</p>
  * <p>JavaFX Assignment</p>
  * <p>Rutgers ID: 199009651</p>
  * <br>
+ *
  * @author Zeyad "zmr15" Rashed
  * @mailto zmr15@scarletmail.rutgers.edu
  * @created 3/14/24, Thursday
