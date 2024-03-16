@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="feat: made Product object no longer abstract&#10;&#10;I decided to change this since it would make more sense to be able to dynamically create new products instead of implementing concrete subclasses for each">
-      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/util/PricingUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/util/PricingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/util/PricingUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +134,7 @@
       <workItem from="1710276330980" duration="2775000" />
       <workItem from="1710441558941" duration="7840000" />
       <workItem from="1710515772456" duration="6575000" />
-      <workItem from="1710604753012" duration="9623000" />
+      <workItem from="1710604753012" duration="10072000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />
