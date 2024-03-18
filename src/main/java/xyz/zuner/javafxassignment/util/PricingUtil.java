@@ -22,9 +22,9 @@ public class PricingUtil {
     private static final double TAX_RATE = 0.07; // sales tax rate
 
     /**
-     * Gets the manufacturer's price for the product (MSRP)
+     * Gets the manufacturer's suggested retail price (MSRP) for the product.
      *
-     * @param product the product to get the warehouse price for.
+     * @param product the product to get the MSRP for.
      * @return MSRP (double)
      */
     public static double getMSRP(Product product) {
@@ -32,7 +32,7 @@ public class PricingUtil {
     }
 
     /**
-     * Calculates the marked-up price for a single product before any discounts are applied.
+     * Calculates the marked-up price for a single product.
      *
      * @param product the product to calculate the price for.
      * @return marked-up price for a single unit of the product.
@@ -42,37 +42,58 @@ public class PricingUtil {
     }
 
     /**
-     * Calculates the after tax price of the (marked-up) product.
+     * Calculates the amount of tax that will be applied to the total cost.
+     *
+     * @param total the total cost pre-tax
+     * @return the tax amount
+     */
+    public static double calculateSalesTax(double total) {
+        return total * TAX_RATE;
+    }
+
+    /**
+     * Calculates the total price for a product, including the markup, before tax.
+     *
+     * @param product  the product to calculate the price for.
+     * @param quantity the quantity of the product.
+     * @return total marked-up price for the specified quantity of the product before tax.
+     */
+    public static double getSubtotal(Product product, int quantity) {
+        double markedUpPrice = getMarkedUpPrice(product);
+        return markedUpPrice * quantity;
+    }
+
+    /**
+     * Calculates the after-tax price of the (marked-up) product.
      *
      * @param product the product to calculate the price for.
      * @return the after-tax price on the marked-up price for a single unit of the product.
      */
-    public static double getAfterTaxPrice(Product product) {
-        return getMarkedUpPrice(product) * (1 + TAX_RATE);
+    public static double getTotalPriceBeforeDiscount(Product product) {
+        double subtotal = getMarkedUpPrice(product);
+        return subtotal + calculateSalesTax(subtotal);
     }
 
     /**
-     * Calculates the total price for a product with a specific quantity before any discounts are applied.
+     * Calculates the total price for a product with a specific quantity, after applying tax and before any discounts.
      *
-     * @param product  the product to calculate the price for.
+     * @param product  the product to calculate the total price for.
      * @param quantity the quantity of the product.
-     * @return total marked-up after-tax price for the specified quantity of the product.
+     * @return total price for the specified quantity of the product, including tax.
      */
-    public static double getTotalPriceBeforeDiscount(Product product, int quantity) {
-        double markedUpPrice = getMarkedUpPrice(product);
-        return markedUpPrice * quantity + (1 + TAX_RATE);
+    public static double getTotalPriceAfterTax(Product product, int quantity) {
+        double subtotal = getSubtotal(product, quantity);
+        return subtotal + calculateSalesTax(subtotal);
     }
 
     /**
-     * Calculates the price for a product after applying a discount rate.
+     * Calculates the total price after a discount rate is applied.
      *
-     * @param product      the product to calculate the discount for.
-     * @param quantity     the quantity of the product.
-     * @param discountRate the discount rate to apply (as a decimal, e.g. 0.20 for 20%).
-     * @return total price for the specified quantity of the product after the discount.
+     * @param totalPriceBeforeDiscount the total price before discount.
+     * @param discountRate             the discount rate to apply (as a decimal, e.g. 0.20 for 20%).
+     * @return total price after the discount.
      */
-    public static double getTotalPriceAfterDiscount(Product product, int quantity, double discountRate) {
-        double totalPriceBeforeDiscount = getTotalPriceBeforeDiscount(product, quantity);
+    public static double getTotalPriceAfterDiscount(double totalPriceBeforeDiscount, double discountRate) {
         double discountAmount = totalPriceBeforeDiscount * discountRate;
         return totalPriceBeforeDiscount - discountAmount;
     }
