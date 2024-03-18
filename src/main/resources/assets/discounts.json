@@ -1,0 +1,49 @@
+[
+  {
+    "code": "FLAT100",
+    "discount_amount": 100.0,
+    "is_percentage": false,
+    "discount_type": "FLAT",
+    "required_quantity": 0,
+    "discount_on_additional": 0.0,
+    "is_item_specific": false,
+    "applicable_product_upcs": []
+  },
+  {
+    "code": "PERC10",
+    "discount_amount": 0.10,
+    "is_percentage": true,
+    "discount_type": "PERCENTAGE",
+    "required_quantity": 0,
+    "discount_on_additional": 0.0,
+    "is_item_specific": true,
+    "applicable_product_upcs": [
+      "001"
+    ]
+  },
+  {
+    "code": "BOGO",
+    "discount_amount": 0.0,
+    "is_percentage": false,
+    "discount_type": "BOGO",
+    "required_quantity": 2,
+    "discount_on_additional": 1.0,
+    "is_item_specific": true,
+    "applicable_product_upcs": [
+      "002",
+      "003"
+    ]
+  },
+  {
+    "code": "BOGO50",
+    "discount_amount": 0.0,
+    "is_percentage": true,
+    "discount_type": "BOGO_PERCENTAGE",
+    "required_quantity": 2,
+    "discount_on_additional": 0.5,
+    "is_item_specific": false,
+    "applicable_product_upcs": [
+      "004"
+    ]
+  }
+]
