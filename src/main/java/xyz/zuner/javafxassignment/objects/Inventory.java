@@ -34,13 +34,13 @@ public class Inventory {
      * @param product the product to add or update in the inventory
      */
     public void addOrUpdateProduct(Product product) {
-        // Check if the product already exists in the inventory
+        // check if the product already exists in the inventory
         Product existingProduct = products.get(product.getUPC());
         if (existingProduct != null) {
-            // Product exists, so update its quantity
+            // product exists, so update its quantity
             existingProduct.add(product.getQuantity());
         } else {
-            // New product, add it to the inventory
+            // new product, add it to the inventory
             products.put(product.getUPC(), product);
         }
     }
