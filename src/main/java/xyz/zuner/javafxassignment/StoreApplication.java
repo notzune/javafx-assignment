@@ -4,15 +4,13 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import xyz.zuner.javafxassignment.objects.Cart;
+import xyz.zuner.javafxassignment.objects.CartItem;
 import xyz.zuner.javafxassignment.objects.Inventory;
 import xyz.zuner.javafxassignment.objects.Product;
 import xyz.zuner.javafxassignment.util.PricingUtil;
@@ -33,6 +31,13 @@ import xyz.zuner.javafxassignment.util.PricingUtil;
  */
 public class StoreApplication extends Application {
 
+    private Cart cart = new Cart();
+    private VBox cartView;
+    private ScrollPane cartScrollPane;
+    private VBox cartItemsContainer;
+    private Label subtotalLabel, taxLabel, discountsLabel, totalLabel, totalDiscountLabel;
+    private Label itemCountLabel;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -42,8 +47,17 @@ public class StoreApplication extends Application {
         Inventory inventory = initInventory();
 
         BorderPane root = new BorderPane();
+        // create header
+        itemCountLabel = new Label("0");
+        itemCountLabel.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-padding: 3px;");
         root.setTop(createHeader());
+
+        // create product listing
         root.setCenter(createProductListing(inventory));
+
+        // create shopping cart
+        this.cartView = createCartView();
+        root.setRight(cartView);
 
         Scene scene = new Scene(root, 960, 540);
         stage.setTitle("Electronics Store");
@@ -56,7 +70,24 @@ public class StoreApplication extends Application {
         header.setPadding(new Insets(15));
         header.setAlignment(Pos.CENTER);
         Label title = new Label("Z's Discount Electronics Store!");
-        header.getChildren().add(title);
+        title.setAlignment(Pos.CENTER);
+        title.setStyle("-fx-text-fill: #279f00; -fx-font-weight: bold; -fx-font-size: 30px");
+
+        Label cartIcon = new Label("\uD83D\uDED2"); // unicode for shopping cart
+        cartIcon.setStyle("-fx-font-size: 24px;");
+
+        Button cartButton = new Button("", cartIcon);
+        cartButton.setGraphic(new VBox(cartIcon, itemCountLabel)); // stack cart icon and item count badge
+        cartButton.setStyle("-fx-background-color: transparent;");
+        cartButton.setContentDisplay(ContentDisplay.TOP);
+        cartButton.setOnAction(event -> toggleCartVisibility());
+
+        HBox rightHeader = new HBox(cartButton);
+        rightHeader.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox.setHgrow(rightHeader, Priority.ALWAYS);
+        header.getChildren().addAll(title, rightHeader);
+
         return header;
     }
 
@@ -98,7 +129,8 @@ public class StoreApplication extends Application {
         addButton.setStyle("-fx-background-color: #00c0ff; -fx-text-fill: white;");
 
         addButton.setOnAction(event -> {
-            // TODO: add logic to add the product to the cart
+            cart.addProduct(product, 1);
+            updateCartViewAndItemCount();
         });
 
         card.getChildren().addAll(productImage, nameLabel, priceLabel, addButton);
@@ -128,5 +160,108 @@ public class StoreApplication extends Application {
         }
 
         return productGrid;
+    }
+
+    private VBox createCartView() {
+        cartView = new VBox(10);
+        cartView.setPadding(new Insets(10));
+        cartView.setAlignment(Pos.TOP_CENTER);
+        cartView.setStyle("-fx-background-color: #f8f8f8;");
+
+        Label cartLabel = new Label("Shopping Cart");
+        cartLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+
+        cartItemsContainer = new VBox(5);
+        cartScrollPane = new ScrollPane(cartItemsContainer);
+        cartScrollPane.setFitToWidth(true);
+
+        TextField discountCodeInput = new TextField();
+        discountCodeInput.setPromptText("Enter promo code");
+        Button applyDiscountButton = new Button("Apply Discount");
+        applyDiscountButton.setOnAction(event -> {
+            String code = discountCodeInput.getText();
+            applyDiscountCode(code);
+        });
+        HBox discountCodeBox = new HBox(5, discountCodeInput, applyDiscountButton);
+        discountCodeBox.setAlignment(Pos.CENTER);
+
+        subtotalLabel = new Label("Subtotal: $0.00");
+        taxLabel = new Label("Tax: $0.00");
+        discountsLabel = new Label("Discounts Applied: None");
+        totalDiscountLabel = new Label("Total Discount: $0.00");
+        totalLabel = new Label("Total: $0.00");
+
+        Button clearCartButton = new Button("Clear Cart");
+        clearCartButton.setOnAction(event -> {
+            cart.clearCart();
+            updateCartViewAndItemCount();
+        });
+
+        cartView.getChildren().addAll(cartLabel, discountCodeBox, discountCodeInput, applyDiscountButton, cartScrollPane, subtotalLabel, taxLabel, discountsLabel, totalDiscountLabel, totalLabel, clearCartButton);
+
+        return cartView;
+    }
+
+    private void applyDiscountCode(String code) { // todo: add handling for invalid or null codes
+        cart.applyDiscountCode(code);
+        updateCartViewAndItemCount();
+    }
+
+    private void toggleCartVisibility() {
+        boolean isVisible = cartView.isVisible();
+        cartView.setVisible(!isVisible);
+        updateCartView();
+    }
+
+    private void updateCartViewAndItemCount() {
+        updateCartView();
+        itemCountLabel.setText(String.valueOf(cart.getItemCount()));
+    }
+
+    private void updateCartView() {
+        cartItemsContainer.getChildren().clear();
+        for (CartItem item : cart.getItems()) {
+            cartItemsContainer.getChildren().add(createCartItemView(item));
+        }
+
+        subtotalLabel.setText("Subtotal: " + String.format("$%.2f", cart.getSubtotalCost()));
+        taxLabel.setText("Tax: " + String.format("$%.2f", cart.getTotalTax()));
+        discountsLabel.setText("Discounts Applied: " + cart.getAppliedDiscountCodes());
+        totalDiscountLabel.setText(String.format("Total Discount: $%.2f", cart.getTotalDiscountAmount()));
+        totalLabel.setText("Total: " + String.format("$%.2f", cart.getTotalCostAfterDiscounts()));
+    }
+
+    private HBox createCartItemView(CartItem cartItem) {
+        HBox itemBox = new HBox(10);
+        itemBox.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView productImage = new ImageView(new Image(cartItem.getProduct().getImagePath()));
+        productImage.setFitWidth(50);
+        productImage.setFitHeight(50);
+
+        Label nameLabel = new Label(cartItem.getProduct().getName());
+        double finalCost = PricingUtil.getMarkedUpPrice(cartItem.getProduct()) * cartItem.getQuantity();
+        Label priceLabel = new Label(String.format("$%.2f", finalCost));
+
+        Spinner<Integer> quantitySpinner = new Spinner<>(1, 100, cartItem.getQuantity());
+        quantitySpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (oldValue > newValue) {
+                cartItem.remove();
+                updateCartViewAndItemCount();
+            } else if (newValue > oldValue) {
+                cart.addProduct(cartItem.getProduct(), 1);
+                updateCartViewAndItemCount();
+            }
+        });
+
+        Button removeItem = new Button("X");
+        removeItem.setStyle("-fx-background-color: #ffff; -fx-text-fill: #ff0000");
+        removeItem.setOnAction(event -> {
+            cart.removeProduct(cartItem.getProduct());
+            updateCartViewAndItemCount();
+        });
+
+        itemBox.getChildren().addAll(productImage, nameLabel, quantitySpinner, priceLabel, removeItem);
+        return itemBox;
     }
 }

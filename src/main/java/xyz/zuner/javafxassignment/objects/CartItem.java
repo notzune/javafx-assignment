@@ -1,5 +1,7 @@
 package xyz.zuner.javafxassignment.objects;
 
+import xyz.zuner.javafxassignment.util.PricingUtil;
+
 /**
  * <p>
  * Represents an item in the shopping cart
@@ -19,7 +21,8 @@ public class CartItem {
 
     private Product product;
     private int quantity;
-    private double discountRate;
+    private Discount discount;
+    private double discountedPrice;
 
     /**
      * Constructs a new CartItem with the given product and quantity.
@@ -30,20 +33,6 @@ public class CartItem {
     public CartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-        this.discountRate = 0; // Default to no discount
-    }
-
-    /**
-     * Constructs a new CartItem with the given product, quantity, and discount.
-     *
-     * @param product      the product associated with this item in the cart.
-     * @param quantity     the quantity of the product.
-     * @param discountRate the applied discounted rate to the item.
-     */
-    public CartItem(Product product, int quantity, double discountRate) {
-        this.product = product;
-        this.quantity = quantity;
-        this.discountRate = discountRate;
     }
 
     /**
@@ -70,25 +59,7 @@ public class CartItem {
      * @param quantity the new quantity.
      */
     public void setQuantity(int quantity) {
-        this.quantity = Math.max(0, quantity); // Prevents quantity from being negative.
-    }
-
-    /**
-     * Gets the current discount rate.
-     *
-     * @return Discount rate (double)
-     */
-    public double getDiscountRate() {
-        return discountRate;
-    }
-
-    /**
-     * Sets the discount rate.
-     *
-     * @param discountRate the rate to be applied to this item.
-     */
-    public void setDiscountRate(double discountRate) {
-        this.discountRate = discountRate;
+        this.quantity = Math.max(0, quantity);
     }
 
     /**
@@ -114,6 +85,18 @@ public class CartItem {
         if (this.quantity > 0) {
             this.quantity--;
         }
+    }
+
+    public void applyDiscount(Discount discount) {
+        this.discount = discount;
+        if (discount != null) {
+            this.discountedPrice = discount.applyTo(PricingUtil.getMarkedUpPrice(product) * quantity, quantity);
+        }
+    }
+
+    public double getDiscountedPrice() {
+        // return the total price if no discount is applied
+        return (discount == null) ? PricingUtil.getMarkedUpPrice(product) * quantity : discountedPrice;
     }
 
     @Override

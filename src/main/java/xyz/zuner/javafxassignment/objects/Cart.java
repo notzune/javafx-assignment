@@ -1,10 +1,8 @@
 package xyz.zuner.javafxassignment.objects;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import xyz.zuner.javafxassignment.util.PricingUtil;
+
+import java.util.*;
 
 
 /**
@@ -24,6 +22,8 @@ import xyz.zuner.javafxassignment.util.PricingUtil;
 public class Cart {
 
     private final List<CartItem> items = new ArrayList<>();
+    private Discount cartDiscount; // cart-wide discounts
+    private Map<String, Discount> appliedDiscounts = new HashMap<>(); // track applied discounts
 
     /**
      * Adds a product to the cart. If the product already exists, its quantity is increased.
@@ -61,26 +61,98 @@ public class Cart {
         return new ArrayList<>(items);
     }
 
+    public void applyDiscountCode(String code) {
+        Discount discount = lookupDiscountByCode(code); // todo: implement this method to retrieve discount by code
+        if (discount != null) {
+            if (discount.isItemSpecific()) {
+                items.forEach(item -> {
+                    if (discount.getApplicableProductUPCs().contains(item.getProduct().getUPC())) {
+                        item.applyDiscount(discount);
+                    }
+                });
+            } else {
+                this.cartDiscount = discount;
+            }
+            appliedDiscounts.put(code, discount);
+        }
+    }
+
+    private Discount lookupDiscountByCode(String code) {
+        return DiscountFactory.getDiscountByCode(code);
+    }
+
     /**
-     * Calculates the total cost of all items in the cart before any discounts are applied.
+     * Calculates the total cost of the items in the cart before tax.
      *
-     * @return the total cost before discounts.
+     * @return the subtotal cost.
      */
-    public double getTotalCostBeforeDiscounts() {
+    public double getSubtotalCost() {
         return items.stream()
-                .mapToDouble(item -> PricingUtil.getTotalPriceBeforeDiscount(item.getProduct(), item.getQuantity()))
+                .mapToDouble(item -> item.getQuantity() * PricingUtil.getMarkedUpPrice(item.getProduct()))
                 .sum();
     }
 
     /**
-     * Calculates the total cost of all items in the cart after applying discounts.
+     * Calculates the total sales tax for the items in the cart.
      *
-     * @return the total cost after discounts.
+     * @return the total tax amount.
+     */
+    public double getTotalTax() {
+        return PricingUtil.calculateSalesTax(getSubtotalCost());
+    }
+
+    /**
+     * Calculates the total cost of the items in the cart including tax but before discounts.
+     *
+     * @return the total cost including tax.
+     */
+    public double getTotalCostBeforeDiscounts() {
+        return getSubtotalCost() + getTotalTax();
+    }
+
+    /**
+     * Calculates the amount being discounted from the total.
+     *
+     * @return the total discount amount.
+     */
+    public double getTotalDiscountAmount() {
+        return items.stream()
+                .mapToDouble(item -> (PricingUtil.getMarkedUpPrice(item.getProduct()) * item.getQuantity()) - item.getDiscountedPrice())
+                .sum();
+    }
+
+    /**
+     * Calculates the final total cost after all discounts are applied.
+     *
+     * @return the final total cost.
      */
     public double getTotalCostAfterDiscounts() {
-        return items.stream()
-                .mapToDouble(item -> PricingUtil.getTotalPriceAfterDiscount(item.getProduct(), item.getQuantity(), item.getDiscountRate()))
+        double totalCostAfterDiscounts = items.stream()
+                .mapToDouble(CartItem::getDiscountedPrice)
                 .sum();
+        return totalCostAfterDiscounts + getTotalTax();
+    }
+
+    /**
+     * Gets a String representation of a list of discount codes being applied.
+     *
+     * @return String
+     */
+    public String getAppliedDiscountCodes() {
+        if (appliedDiscounts.isEmpty()) {
+            return "No discounts applied";
+        } else {
+            return String.join("\n", appliedDiscounts.keySet());
+        }
+    }
+
+    /**
+     * Calculates the total number of items in the cart.
+     *
+     * @return the total item count.
+     */
+    public int getItemCount() {
+        return items.stream().mapToInt(CartItem::getQuantity).sum();
     }
 
     /**
