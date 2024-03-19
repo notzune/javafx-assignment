@@ -155,7 +155,7 @@ public class Cart {
      */
     public String getAppliedDiscountCodes() {
         if (appliedDiscounts.isEmpty()) {
-            return "No discounts applied";
+            return "None";
         } else {
             return String.join("\n", appliedDiscounts.keySet());
         }
