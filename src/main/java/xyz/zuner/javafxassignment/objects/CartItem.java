@@ -114,7 +114,7 @@ public class CartItem {
      */
     public void removeDiscount() {
         this.discount = null;
-        this.discountedPrice  = PricingUtil.getMarkedUpPrice(product) * quantity;
+        this.discountedPrice = PricingUtil.getMarkedUpPrice(product) * quantity;
     }
 
     @Override
