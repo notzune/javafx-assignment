@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="feat: made Product object no longer abstract&#10;&#10;I decided to change this since it would make more sense to be able to dynamically create new products instead of implementing concrete subclasses for each">
-      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Discount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/DiscountFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Transaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/discounts.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/util/PricingUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/util/PricingUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +139,7 @@
       <workItem from="1710604753012" duration="15183000" />
       <workItem from="1710633521536" duration="2587000" />
       <workItem from="1710644690397" duration="8467000" />
-      <workItem from="1710776312843" duration="8429000" />
+      <workItem from="1710776312843" duration="10749000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />

@@ -8,11 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import xyz.zuner.javafxassignment.objects.Cart;
-import xyz.zuner.javafxassignment.objects.CartItem;
-import xyz.zuner.javafxassignment.objects.Inventory;
-import xyz.zuner.javafxassignment.objects.Product;
+import xyz.zuner.javafxassignment.objects.*;
 import xyz.zuner.javafxassignment.util.PricingUtil;
 
 /**
@@ -37,6 +35,10 @@ public class StoreApplication extends Application {
     private VBox cartItemsContainer;
     private Label subtotalLabel, taxLabel, discountsLabel, totalLabel, totalDiscountLabel;
     private Label itemCountLabel;
+
+    // buttons for checkout and printing receipt
+    private Button proceedToCheckoutButton;
+    private Button printReceiptButton;
 
     public static void main(String[] args) {
         launch(args);
@@ -197,10 +199,61 @@ public class StoreApplication extends Application {
             updateCartViewAndItemCount();
         });
 
-        cartView.getChildren().addAll(cartLabel, discountCodeBox, discountCodeInput, applyDiscountButton, cartScrollPane, subtotalLabel, taxLabel, discountsLabel, totalDiscountLabel, totalLabel, clearCartButton);
+        proceedToCheckoutButton = new Button("Proceed to Checkout");
+        proceedToCheckoutButton.setOnAction(event -> handleCheckout());
+
+        printReceiptButton = new Button("Print Receipt");
+        printReceiptButton.setOnAction(event -> printReceipt());
+        printReceiptButton.setVisible(false);
+
+        cartView.getChildren().addAll(
+                cartLabel,
+                discountCodeBox,
+                discountCodeInput,
+                applyDiscountButton,
+                cartScrollPane,
+                subtotalLabel,
+                taxLabel,
+                discountsLabel,
+                totalDiscountLabel,
+                totalLabel,
+                clearCartButton,
+                proceedToCheckoutButton,
+                printReceiptButton
+        );
 
         return cartView;
     }
+
+    private void handleCheckout() {
+        proceedToCheckoutButton.setVisible(false);
+        printReceiptButton.setVisible(true);
+    }
+
+    private void printReceipt() {
+        Transaction transaction = new Transaction(cart.getItems(), cart.getSubtotalCost(), cart.getTotalTax(), cart.getTotalDiscountAmount(), cart.getTotalCostAfterDiscounts());
+        String receipt = transaction.generateReceipt();
+
+        Stage receiptStage = new Stage();
+        receiptStage.initModality(Modality.APPLICATION_MODAL);
+        receiptStage.setTitle("Receipt");
+
+        Label receiptContent = new Label(receipt);
+        receiptContent.setStyle("-fx-font-family: 'Courier New', Courier, monospace; -fx-font-size: 10pt; -fx-padding: 10;");
+
+        VBox layout = new VBox(10, receiptContent);
+        layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
+
+        Scene scene = new Scene(layout, 300, 600);
+        receiptStage.setScene(scene);
+        receiptStage.showAndWait();
+
+        // clear cart after receipt "prints"
+        cart.clearCart();
+        updateCartViewAndItemCount();
+    }
+
 
     private void applyDiscountCode(String code) { // todo: add handling for invalid or null codes
         cart.applyDiscountCode(code);
