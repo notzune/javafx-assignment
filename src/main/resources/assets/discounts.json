@@ -10,6 +10,16 @@
     "applicable_product_upcs": []
   },
   {
+    "code": "FLAT50",
+    "discount_amount": 50.0,
+    "is_percentage": false,
+    "discount_type": "FLAT",
+    "required_quantity": 0,
+    "discount_on_additional": 0.0,
+    "is_item_specific": false,
+    "applicable_product_upcs": []
+  },
+  {
     "code": "PERC10",
     "discount_amount": 0.10,
     "is_percentage": true,

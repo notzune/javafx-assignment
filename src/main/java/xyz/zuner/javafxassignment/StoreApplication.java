@@ -282,7 +282,7 @@ public class StoreApplication extends Application {
 
         subtotalLabel.setText("Subtotal: " + String.format("$%.2f", cart.getSubtotalCost()));
         taxLabel.setText("Tax: " + String.format("$%.2f", cart.getTotalTax()));
-        discountsLabel.setText("Discounts Applied: " + cart.getAppliedDiscountCodes());
+        discountsLabel.setText("Discounts Applied: \n" + cart.getAppliedDiscountCodes());
         totalDiscountLabel.setText(String.format("Total Discount: $%.2f", cart.getTotalDiscountAmount()));
         totalLabel.setText("Total: " + String.format("$%.2f", cart.getTotalCostAfterDiscounts()));
     }
