@@ -230,6 +230,13 @@ public class StoreApplication extends Application {
         printReceiptButton.setVisible(true);
     }
 
+    private void applyDiscountCode(String code) {
+        // todo: add err msg handling for invalid or null codes
+        // todo: fix 'BOGO' and 'FLAT100' codes for some reason
+        cart.applyDiscountCode(code);
+        updateCartViewAndItemCount();
+    }
+
     private void printReceipt() {
         Transaction transaction = new Transaction(cart.getAppliedDiscountCodes(),cart.getItems(), cart.getSubtotalCost(), cart.getTotalTax(), cart.getTotalDiscountAmount(), cart.getTotalCostAfterDiscounts());
         String receipt = transaction.generateReceipt();
@@ -251,15 +258,8 @@ public class StoreApplication extends Application {
 
         // clear cart after receipt "prints"
         cart.clearCart();
-        updateCartViewAndItemCount();
-    }
-
-
-    private void applyDiscountCode(String code) {
-        // todo: add handling for invalid or null codes
-        // todo: fix 'BOGO' and 'FLAT100' codes for some reason
-        // todo: add method for clearing discounts
-        cart.applyDiscountCode(code);
+        // remove discounts as well
+        cart.clearDiscounts();
         updateCartViewAndItemCount();
     }
 

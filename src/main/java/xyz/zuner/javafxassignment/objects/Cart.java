@@ -61,8 +61,13 @@ public class Cart {
         return new ArrayList<>(items);
     }
 
+    /**
+     * Applies a discount via its code.
+     *
+     * @param code String representation of the discount code
+     */
     public void applyDiscountCode(String code) {
-        Discount discount = lookupDiscountByCode(code); // todo: implement this method to retrieve discount by code
+        Discount discount = lookupDiscountByCode(code);
         if (discount != null) {
             if (discount.isItemSpecific()) {
                 items.forEach(item -> {
@@ -74,6 +79,16 @@ public class Cart {
                 this.cartDiscount = discount;
             }
             appliedDiscounts.put(code, discount);
+        }
+    }
+
+    /**
+     * Clears the applied discounts.
+     */
+    public void clearDiscounts() {
+        this.appliedDiscounts.clear();
+        for (CartItem item : items) {
+            item.removeDiscount();
         }
     }
 

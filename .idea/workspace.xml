@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="feat: made Product object no longer abstract&#10;&#10;I decided to change this since it would make more sense to be able to dynamically create new products instead of implementing concrete subclasses for each">
+    <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="chore: add todo to fix discount code handling&#10;&#10;certain codes dont work properly, and i need to add a method to clear the discounts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/CartItem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +141,8 @@
       <workItem from="1710604753012" duration="15183000" />
       <workItem from="1710633521536" duration="2587000" />
       <workItem from="1710644690397" duration="8467000" />
-      <workItem from="1710776312843" duration="11391000" />
+      <workItem from="1710776312843" duration="12424000" />
+      <workItem from="1710829368441" duration="1120000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />
@@ -269,7 +272,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710542626673</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="chore: add todo to fix discount code handling&#10;&#10;certain codes dont work properly, and i need to add a method to clear the discounts">
+      <option name="closed" value="true" />
+      <created>1710819809101</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1710819809101</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,6 +304,7 @@
     <MESSAGE value="feat: add methods to allow for discounts to be applied in the future" />
     <MESSAGE value="feat: modify price calculation to add in the marked up prices." />
     <MESSAGE value="feat: made Product object no longer abstract&#10;&#10;I decided to change this since it would make more sense to be able to dynamically create new products instead of implementing concrete subclasses for each" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: made Product object no longer abstract&#10;&#10;I decided to change this since it would make more sense to be able to dynamically create new products instead of implementing concrete subclasses for each" />
+    <MESSAGE value="chore: add todo to fix discount code handling&#10;&#10;certain codes dont work properly, and i need to add a method to clear the discounts" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: add todo to fix discount code handling&#10;&#10;certain codes dont work properly, and i need to add a method to clear the discounts" />
   </component>
 </project>

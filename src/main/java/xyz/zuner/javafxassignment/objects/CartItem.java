@@ -87,6 +87,11 @@ public class CartItem {
         }
     }
 
+    /**
+     * Apply discounted price to the item.
+     *
+     * @param discount the discount to be applied.
+     */
     public void applyDiscount(Discount discount) {
         this.discount = discount;
         if (discount != null) {
@@ -94,9 +99,22 @@ public class CartItem {
         }
     }
 
+    /**
+     * Gets the newly calculated price after applying discounts. If no discount, price is the regular marked up price.
+     *
+     * @return Discounted price, else regular price.
+     */
     public double getDiscountedPrice() {
         // return the total price if no discount is applied
         return (discount == null) ? PricingUtil.getMarkedUpPrice(product) * quantity : discountedPrice;
+    }
+
+    /**
+     * Removes the discount and reverts items to original cost.
+     */
+    public void removeDiscount() {
+        this.discount = null;
+        this.discountedPrice  = PricingUtil.getMarkedUpPrice(product) * quantity;
     }
 
     @Override
