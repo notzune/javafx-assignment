@@ -23,6 +23,7 @@ public class Cart {
 
     private final List<CartItem> items = new ArrayList<>();
     private Discount cartDiscount; // cart-wide discounts
+    private double cartWideDiscountAmount = 0.0; // stores cart-wide discount amount
     private Map<String, Discount> appliedDiscounts = new HashMap<>(); // track applied discounts
 
     /**
@@ -77,8 +78,19 @@ public class Cart {
                 });
             } else {
                 this.cartDiscount = discount;
+                applyCartDiscount();
             }
             appliedDiscounts.put(code, discount);
+        }
+    }
+
+    /**
+     * Stores the discount amount for later.
+     */
+    public void applyCartDiscount() {
+        if (this.cartDiscount != null) {
+            cartWideDiscountAmount += cartDiscount.getAmount();
+            // this won't work for %off cart-wide discounts in the future but shouldn't be a problem because the math should work out per item anyway
         }
     }
 
@@ -87,6 +99,8 @@ public class Cart {
      */
     public void clearDiscounts() {
         this.appliedDiscounts.clear();
+        this.cartDiscount = null;
+        this.cartWideDiscountAmount = 0.0;
         for (CartItem item : items) {
             item.removeDiscount();
         }
@@ -133,7 +147,7 @@ public class Cart {
     public double getTotalDiscountAmount() {
         return items.stream()
                 .mapToDouble(item -> (PricingUtil.getMarkedUpPrice(item.getProduct()) * item.getQuantity()) - item.getDiscountedPrice())
-                .sum();
+                .sum() + cartWideDiscountAmount;
     }
 
     /**
@@ -141,11 +155,23 @@ public class Cart {
      *
      * @return the final total cost.
      */
+    /**
+     * Calculates the final total cost after all discounts are applied.
+     *
+     * @return the final total cost.
+     */
     public double getTotalCostAfterDiscounts() {
-        double totalCostAfterDiscounts = items.stream()
+        double itemsTotal = items.stream()
                 .mapToDouble(CartItem::getDiscountedPrice)
                 .sum();
-        return totalCostAfterDiscounts + getTotalTax();
+
+        double totalCostAfterItemDiscounts = itemsTotal + getTotalTax();
+
+        if (cartDiscount != null) {
+            totalCostAfterItemDiscounts = cartDiscount.applyTo(totalCostAfterItemDiscounts, 1);
+        }
+
+        return totalCostAfterItemDiscounts;
     }
 
     /**

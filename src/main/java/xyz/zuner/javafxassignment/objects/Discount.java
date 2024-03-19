@@ -74,6 +74,15 @@ public class Discount {
     }
 
     /**
+     * Gets the amount of the discount.
+     *
+     * @return the amount being taken off.
+     */
+    public double getAmount() {
+        return amount;
+    }
+
+    /**
      * Applies this discount based on the type of discount and quantity of items.
      *
      * @param originalAmount the original amount before discount
