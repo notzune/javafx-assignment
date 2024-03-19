@@ -231,7 +231,7 @@ public class StoreApplication extends Application {
     }
 
     private void printReceipt() {
-        Transaction transaction = new Transaction(cart.getItems(), cart.getSubtotalCost(), cart.getTotalTax(), cart.getTotalDiscountAmount(), cart.getTotalCostAfterDiscounts());
+        Transaction transaction = new Transaction(cart.getAppliedDiscountCodes(),cart.getItems(), cart.getSubtotalCost(), cart.getTotalTax(), cart.getTotalDiscountAmount(), cart.getTotalCostAfterDiscounts());
         String receipt = transaction.generateReceipt();
 
         Stage receiptStage = new Stage();
