@@ -255,7 +255,10 @@ public class StoreApplication extends Application {
     }
 
 
-    private void applyDiscountCode(String code) { // todo: add handling for invalid or null codes
+    private void applyDiscountCode(String code) {
+        // todo: add handling for invalid or null codes
+        // todo: fix 'BOGO' and 'FLAT100' codes for some reason
+        // todo: add method for clearing discounts
         cart.applyDiscountCode(code);
         updateCartViewAndItemCount();
     }
