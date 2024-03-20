@@ -109,6 +109,12 @@ public class StoreApplication extends Application {
         return inventory;
     }
 
+    /**
+     * Creates the card to display the product in the cart.
+     *
+     * @param product the product to be displayed
+     * @return VBox
+     */
     private VBox createProductCard(Product product) {
         VBox card = new VBox(10);
         card.setAlignment(Pos.CENTER);
@@ -139,6 +145,13 @@ public class StoreApplication extends Application {
         return card;
     }
 
+    /**
+     * Creates a listing for a product if it is added to the inventory.
+     *
+     * @param inventory the inventory object being initialized
+     * @return GridPane
+     * @see #initInventory()
+     */
     private GridPane createProductListing(Inventory inventory) {
         GridPane productGrid = new GridPane();
         productGrid.setHgap(15);
@@ -164,6 +177,11 @@ public class StoreApplication extends Application {
         return productGrid;
     }
 
+    /**
+     * Handles the GUI for the cart.
+     *
+     * @return VBox
+     */
     private VBox createCartView() {
         cartView = new VBox(10);
         cartView.setPadding(new Insets(10));
@@ -225,11 +243,19 @@ public class StoreApplication extends Application {
         return cartView;
     }
 
+    /**
+     * Handles checkout.
+     */
     private void handleCheckout() {
         proceedToCheckoutButton.setVisible(false);
         printReceiptButton.setVisible(true);
     }
 
+    /**
+     * Applies discount to cart.
+     *
+     * @param code the Discount code (String)
+     */
     private void applyDiscountCode(String code) {
         // todo: add err msg handling for invalid or null codes
         // todo: fix 'BOGO' and 'FLAT100' codes for some reason
@@ -237,6 +263,9 @@ public class StoreApplication extends Application {
         updateCartViewAndItemCount();
     }
 
+    /**
+     * Handles creating and accessing a new Transaction object to generate a receipt.
+     */
     private void printReceipt() {
         Transaction transaction = new Transaction(cart.getAppliedDiscountCodes(), cart.getItems(), cart.getSubtotalCost(), cart.getTotalTax(), cart.getTotalDiscountAmount(), cart.getTotalCostAfterDiscounts());
         String receipt = transaction.generateReceipt();
@@ -263,17 +292,26 @@ public class StoreApplication extends Application {
         updateCartViewAndItemCount();
     }
 
+    /**
+     * Toggles cart view.
+     */
     private void toggleCartVisibility() {
         boolean isVisible = cartView.isVisible();
         cartView.setVisible(!isVisible);
         updateCartView();
     }
 
+    /**
+     * Updates the view.
+     */
     private void updateCartViewAndItemCount() {
         updateCartView();
         itemCountLabel.setText(String.valueOf(cart.getItemCount()));
     }
 
+    /**
+     * Updates cart view.
+     */
     private void updateCartView() {
         cartItemsContainer.getChildren().clear();
         for (CartItem item : cart.getItems()) {
@@ -287,6 +325,12 @@ public class StoreApplication extends Application {
         totalLabel.setText("Total: " + String.format("$%.2f", cart.getTotalCostAfterDiscounts()));
     }
 
+    /**
+     * Handles logic for creating the item box in the cart view.
+     *
+     * @param cartItem the CartItem to display
+     * @return HBox
+     */
     private HBox createCartItemView(CartItem cartItem) {
         HBox itemBox = new HBox(10);
         itemBox.setAlignment(Pos.CENTER_LEFT);
