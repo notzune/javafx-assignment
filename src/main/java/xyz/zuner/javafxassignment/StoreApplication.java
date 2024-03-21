@@ -44,6 +44,9 @@ public class StoreApplication extends Application {
         launch(args);
     }
 
+    /**
+     * Starts the application.
+     */
     @Override
     public void start(Stage stage) {
         Inventory inventory = initInventory();
@@ -67,6 +70,11 @@ public class StoreApplication extends Application {
         stage.show();
     }
 
+    /**
+     * Creates the header box
+     *
+     * @return HBox
+     */
     private HBox createHeader() {
         HBox header = new HBox();
         header.setPadding(new Insets(15));
