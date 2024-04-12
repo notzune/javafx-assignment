@@ -65,6 +65,7 @@ public class Transaction {
         receipt.append("\nItems Purchased:\n");
         for (CartItem item : items) {
             receipt.append("- ").append(item.getProduct().getName())
+                    .append("(").append(item.getSelectedOptions()).append(")")
                     .append(" x ").append(item.getQuantity())
                     .append(": $").append(String.format("%.2f", item.getDiscountedPrice())).append("\n");
         }
