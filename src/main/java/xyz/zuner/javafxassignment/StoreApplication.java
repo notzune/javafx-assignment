@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import xyz.zuner.javafxassignment.objects.*;
@@ -109,10 +110,10 @@ public class StoreApplication extends Application {
     private Inventory initInventory() {
         Inventory inventory = new Inventory();
 
-        inventory.addOrUpdateProduct(new Product("Laptop", "001", 999.99));
-        inventory.addOrUpdateProduct(new Product("Smartphone", "002", 599.99));
-        inventory.addOrUpdateProduct(new Product("Smartwatch", "003", 249.99));
-        inventory.addOrUpdateProduct(new Product("Camera", "004", 449.99));
+        inventory.addOrUpdateProduct(new Product("Laptop", "001", 999.99, 20));
+        inventory.addOrUpdateProduct(new Product("Smartphone", "002", 599.99, 10));
+        inventory.addOrUpdateProduct(new Product("Smartwatch", "003", 249.99, 6));
+        inventory.addOrUpdateProduct(new Product("Camera", "004", 449.99, 25));
 
         return inventory;
     }
@@ -141,16 +142,27 @@ public class StoreApplication extends Application {
         Label priceLabel = new Label(String.format("$%.2f", displayPrice));
         priceLabel.setStyle("-fx-font-size: 14px;");
 
-        Button addButton = new Button("Add to cart");
-        addButton.setStyle("-fx-background-color: #00c0ff; -fx-text-fill: white;");
+        TextField quantityField = new TextField();
+        quantityField.setPromptText("Insert quantity here");
+        Button addButton = addToCartButton(product, quantityField);
 
-        addButton.setOnAction(event -> {
-            cart.addProduct(product, 1);
-            updateCartViewAndItemCount();
-        });
-
-        card.getChildren().addAll(productImage, nameLabel, priceLabel, addButton);
+        card.getChildren().addAll(productImage, nameLabel, priceLabel, addButton, quantityField);
         return card;
+    }
+
+    private Button addToCartButton(Product product, TextField quantityField) {
+        Button addButton = new Button("Add to Cart");
+        addButton.setStyle("-fx-background-color: #00c0ff; -fx-text-fill: white;");
+        addButton.setOnAction(event -> {
+            try {
+                int quantity = Integer.parseInt(quantityField.getText());
+                cart.addProduct(product, quantity);
+                updateCartViewAndItemCount();
+            } catch (NumberFormatException e) {
+                cart.showErrorDialog("Invalid Input", "Please enter a numeric quantity.");
+            }
+        });
+        return addButton;
     }
 
     /**

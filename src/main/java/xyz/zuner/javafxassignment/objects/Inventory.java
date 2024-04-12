@@ -38,7 +38,7 @@ public class Inventory {
         Product existingProduct = products.get(product.getUPC());
         if (existingProduct != null) {
             // product exists, so update its quantity
-            existingProduct.add(product.getQuantity());
+            existingProduct.add(product.getStock());
         } else {
             // new product, add it to the inventory
             products.put(product.getUPC(), product);
@@ -61,22 +61,10 @@ public class Inventory {
      * @param UPC      the Universal Product Code of the product to update
      * @param quantity the new quantity to set
      */
-    public void updateProductQuantity(String UPC, int quantity) {
-        Product product = products.get(UPC);
+    public void updateStock(String UPC, int quantity) {
+        Product product = findProductByUPC(UPC);
         if (product != null) {
-            product.setQuantity(quantity);
-        }
-    }
-
-    /**
-     * Updates the quantity of a product in the inventory.
-     *
-     * @param product  the product to update
-     * @param quantity the new quantity to set
-     */
-    public void updateProductQuantity(Product product, int quantity) {
-        if (product != null) {
-            product.setQuantity(quantity);
+            product.reduceStock(quantity);
         }
     }
 

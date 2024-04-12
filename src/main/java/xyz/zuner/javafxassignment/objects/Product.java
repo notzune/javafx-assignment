@@ -20,7 +20,7 @@ public class Product {
 
     private String name;
     private String UPC; // universal product code
-    private int quantity;
+    private int stock;
     private double price; // manufacturer's price (MSRP)
 
     /**
@@ -30,11 +30,11 @@ public class Product {
      * @param UPC   the Universal Product Code
      * @param price the manufacturer's price of the object
      */
-    public Product(String name, String UPC, double price) {
+    public Product(String name, String UPC, double price, int initialQuantity) {
         this.name = name;
         this.UPC = UPC;
-        this.quantity = 0; // default quantity set to 0
         this.price = price;
+        this.stock = initialQuantity;
     }
 
     /**
@@ -60,17 +60,17 @@ public class Product {
      *
      * @return quantity (int)
      */
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
 
     /**
      * Sets the quantity of the product
      *
-     * @param quantity the new quantity
+     * @param stock the new quantity
      */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     /**
@@ -79,7 +79,30 @@ public class Product {
      * @param additional The amount to add to the quantity.
      */
     public void add(int additional) {
-        this.quantity += additional;
+        this.stock += additional;
+    }
+
+    /**
+     * Method for checking whether the product is available or not.
+     *
+     * @param quantity the quantity to check for
+     * @return boolean
+     */
+    public boolean isAvailable(int quantity) {
+        return quantity <= stock;
+    }
+
+    /**
+     * Reduces stock of the item by a certain amount.
+     *
+     * @param quantity the quantity to reduce the stock by.
+     */
+    public void reduceStock(int quantity) {
+        if (quantity <= stock) {
+            stock -= quantity;
+        } else {
+            throw new IllegalArgumentException("Insufficient stock for product " + name);
+        }
     }
 
     /**
@@ -89,7 +112,7 @@ public class Product {
      *                       Can be positive (restock) or negative (sale).
      */
     public void adjustInventoryQuantity(int quantityChange) {
-        this.quantity += quantityChange;
+        this.stock += quantityChange;
     }
 
     /**
@@ -135,7 +158,7 @@ public class Product {
                 "\nname: " + name +
                 "\nUPC: " + UPC +
                 "\nprice: " + price +
-                "\nquantity: " + quantity
+                "\nquantity: " + stock
                 + "\n}";
     }
 }

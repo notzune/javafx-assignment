@@ -30,19 +30,33 @@ public class Cart {
 
     /**
      * Adds a product to the cart. If the product already exists, its quantity is increased.
+     * Checks inventory to ensure there are enough products available before adding.
      *
      * @param product  the product to add
      * @param quantity the quantity of the product to add
      */
     public void addProduct(Product product, int quantity) {
+        if (!product.isAvailable(quantity)) {
+            throw new IllegalArgumentException("Insufficient stock for " + product.getName());
+        }
+
         Optional<CartItem> existingItem = items.stream()
                 .filter(item -> item.getProduct().equals(product))
                 .findFirst();
 
         if (existingItem.isPresent()) {
+            int combinedQuantity = existingItem.get().getQuantity() + quantity;
+            if (!product.isAvailable(combinedQuantity)) {
+                String errorMsg = "Adding quantity exceeds stock for " + product.getName();
+                showErrorDialog("Error Adding Product", errorMsg);
+//                throw new IllegalArgumentException(errorMsg);
+            }
+            // if enough stock, increase the quantity
             existingItem.get().add(quantity);
+            product.reduceStock(quantity);
         } else {
             items.add(new CartItem(product, quantity));
+            product.reduceStock(quantity);
         }
     }
 
@@ -122,20 +136,23 @@ public class Cart {
         Map<String, Discount> availableDiscounts = DiscountFactory.getDiscountMap();
 
         if (!availableDiscounts.containsKey(code)) {
-            showInvalidDiscountError();
+            showErrorDialog("Invalid or Expired Promo Code", "The code you entered is either invalid or has expired.");
             return false;
         }
         return true;
     }
 
     /**
-     * Shows an error when an invalid coupon code is entered.
+     * Utility method to show an error dialog with the specified title and message.
+     *
+     * @param title   the title of the dialog.
+     * @param message the message to display in the dialog.
      */
-    private void showInvalidDiscountError() {
+    public void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid or Expired Promo Code");
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText("The code you entered is either invalid or has expired.");
+        alert.setContentText(message);
 
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.setStyle("-fx-text-fill: red;");

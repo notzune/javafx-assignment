@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="chore: add todo to fix discount code handling&#10;&#10;certain codes dont work properly, and i need to add a method to clear the discounts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/DiscountFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/DiscountFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +156,7 @@
       <workItem from="1711642411539" duration="47000" />
       <workItem from="1711658579395" duration="1946000" />
       <workItem from="1711726086524" duration="131000" />
-      <workItem from="1712840732732" duration="3489000" />
+      <workItem from="1712840732732" duration="7147000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />
