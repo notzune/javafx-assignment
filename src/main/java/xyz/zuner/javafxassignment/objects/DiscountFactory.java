@@ -67,4 +67,8 @@ public class DiscountFactory {
     private static void printAllDiscounts() {
         discountMap.forEach((code, discount) -> System.out.println(discount.toString()));
     }
+
+    public static Map<String, Discount> getDiscountMap() {
+        return discountMap;
+    }
 }

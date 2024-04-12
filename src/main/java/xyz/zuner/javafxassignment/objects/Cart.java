@@ -1,5 +1,7 @@
 package xyz.zuner.javafxassignment.objects;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import xyz.zuner.javafxassignment.util.PricingUtil;
 
 import java.util.*;
@@ -68,8 +70,8 @@ public class Cart {
      * @param code String representation of the discount code
      */
     public void applyDiscountCode(String code) {
-        Discount discount = lookupDiscountByCode(code);
-        if (discount != null) {
+        if (validatePromoCode(code)) {
+            Discount discount = lookupDiscountByCode(code);
             if (discount.isItemSpecific()) {
                 items.forEach(item -> {
                     if (discount.getApplicableProductUPCs().contains(item.getProduct().getUPC())) {
@@ -108,6 +110,37 @@ public class Cart {
 
     private Discount lookupDiscountByCode(String code) {
         return DiscountFactory.getDiscountByCode(code);
+    }
+
+    /**
+     * Validates the discount code entered.
+     *
+     * @param code the code entered by the user.
+     * @return true if the promo code is valid, false if it is invalid or expired.
+     */
+    private boolean validatePromoCode(String code) {
+        Map<String, Discount> availableDiscounts = DiscountFactory.getDiscountMap();
+
+        if (!availableDiscounts.containsKey(code)) {
+            showInvalidDiscountError();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Shows an error when an invalid coupon code is entered.
+     */
+    private void showInvalidDiscountError() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid or Expired Promo Code");
+        alert.setHeaderText(null);
+        alert.setContentText("The code you entered is either invalid or has expired.");
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-text-fill: red;");
+
+        alert.showAndWait();
     }
 
     /**
