@@ -1,6 +1,9 @@
 package xyz.zuner.javafxassignment.objects;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * </p>
@@ -22,6 +25,8 @@ public class Product {
     private String UPC; // universal product code
     private int stock;
     private double price; // manufacturer's price (MSRP)
+    private HashMap<String, List<String>> options;
+    private HashMap<String, String> selectedOptions;
 
     /**
      * Instantiates a new product object
@@ -35,6 +40,8 @@ public class Product {
         this.UPC = UPC;
         this.price = price;
         this.stock = initialQuantity;
+        this.options = new HashMap<>();
+        this.selectedOptions = new HashMap<>();
     }
 
     /**
@@ -141,6 +148,47 @@ public class Product {
             return imageUrl != null ? imageUrl.toExternalForm() : null;
         }
     }
+
+    /**
+     * Adds a selection option for the product.
+     *
+     * @param optionCategory the category of the option, e.g., "Color", "Size".
+     * @param optionValues a list of values available for this option category.
+     */
+    public void addOption(String optionCategory, List<String> optionValues) {
+        options.put(optionCategory, optionValues);
+    }
+
+    /**
+     * Retrieves all selectable options for the product.
+     *
+     * @return map containing all option categories with their corresponding available values.
+     */
+    public HashMap<String, List<String>> getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the selected option for a given category.
+     *
+     * @param optionCategory the category of the option where the selection is being made.
+     * @param optionValue the value of the option that is being selected within the category.
+     */
+    public void setSelectedOption(String optionCategory, String optionValue) {
+        selectedOptions.put(optionCategory, optionValue);
+    }
+
+    /**
+     * Returns a string representation of all selected options for the product.
+     *
+     * @return String
+     */
+    public String getSelectedOptionsAsString() {
+        return selectedOptions.entrySet().stream()
+                .map(entry -> entry.getKey() + ": " + entry.getValue())
+                .collect(Collectors.joining(", "));
+    }
+
 
     /**
      * Checks if the given UPC matches the product's UPC.

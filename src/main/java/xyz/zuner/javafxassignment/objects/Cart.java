@@ -40,24 +40,38 @@ public class Cart {
             throw new IllegalArgumentException("Insufficient stock for " + product.getName());
         }
 
-        Optional<CartItem> existingItem = items.stream()
-                .filter(item -> item.getProduct().equals(product))
-                .findFirst();
+        CartItem existingItem = findItemByProductAndOptions(product);
 
-        if (existingItem.isPresent()) {
-            int combinedQuantity = existingItem.get().getQuantity() + quantity;
+        if (existingItem != null) {
+            int combinedQuantity = existingItem.getQuantity() + quantity;
             if (!product.isAvailable(combinedQuantity)) {
                 String errorMsg = "Adding quantity exceeds stock for " + product.getName();
                 showErrorDialog("Error Adding Product", errorMsg);
-//                throw new IllegalArgumentException(errorMsg);
+                return;
             }
             // if enough stock, increase the quantity
-            existingItem.get().add(quantity);
+            existingItem.add(quantity);
             product.reduceStock(quantity);
         } else {
             items.add(new CartItem(product, quantity));
             product.reduceStock(quantity);
         }
+    }
+
+    /**
+     * Finds an existing cart item by matching the product and its selected options,
+     * this ensures that products with different selected options are treated as separate cart items.
+     *
+     * @param product the product to find in the cart items.
+     * @return CartItem, or null if no match is found.
+     */
+    private CartItem findItemByProductAndOptions(Product product) {
+        for (CartItem item : items) {
+            if (item.getProduct().equals(product) && item.getSelectedOptions().equals(product.getSelectedOptionsAsString())) {
+                return item;
+            }
+        }
+        return null;
     }
 
     /**
@@ -260,10 +274,15 @@ public class Cart {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Cart Contents:\n");
+        StringBuilder builder = new StringBuilder("Cart Contents:\n");
         for (CartItem item : items) {
-            sb.append(item).append("\n");
+            builder.append(item.getProduct().getName())
+                    .append(" - ")
+                    .append(item.getProduct().getSelectedOptionsAsString())
+                    .append(": ")
+                    .append(item.getQuantity())
+                    .append("\n");
         }
-        return sb.toString();
+        return builder.toString();
     }
 }

@@ -1,6 +1,7 @@
 package xyz.zuner.javafxassignment;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -50,7 +51,7 @@ public class StoreApplication extends Application {
      */
     @Override
     public void start(Stage stage) {
-        Inventory inventory = initInventory();
+        Inventory inventory = new Inventory();
 
         BorderPane root = new BorderPane();
         // create header
@@ -102,21 +103,21 @@ public class StoreApplication extends Application {
         return header;
     }
 
-    /**
-     * Initializes the store's inventory.
-     *
-     * @return Inventory
-     */
-    private Inventory initInventory() {
-        Inventory inventory = new Inventory();
-
-        inventory.addOrUpdateProduct(new Product("Laptop", "001", 999.99, 20));
-        inventory.addOrUpdateProduct(new Product("Smartphone", "002", 599.99, 10));
-        inventory.addOrUpdateProduct(new Product("Smartwatch", "003", 249.99, 6));
-        inventory.addOrUpdateProduct(new Product("Camera", "004", 449.99, 25));
-
-        return inventory;
-    }
+//    /**
+//     * Initializes the store's inventory.
+//     *
+//     * @return Inventory
+//     */
+//    private Inventory initInventory() {
+//        Inventory inventory = new Inventory();
+//
+//        inventory.addOrUpdateProduct(new Product("Laptop", "001", 999.99, 20));
+//        inventory.addOrUpdateProduct(new Product("Smartphone", "002", 599.99, 10));
+//        inventory.addOrUpdateProduct(new Product("Smartwatch", "003", 249.99, 6));
+//        inventory.addOrUpdateProduct(new Product("Camera", "004", 449.99, 25));
+//
+//        return inventory;
+//    }
 
     /**
      * Creates the card to display the product in the cart.
@@ -142,6 +143,15 @@ public class StoreApplication extends Application {
         Label priceLabel = new Label(String.format("$%.2f", displayPrice));
         priceLabel.setStyle("-fx-font-size: 14px;");
 
+        product.getOptions().forEach((optionCategory, options) -> {
+            Label optionLabel = new Label("Choose " + optionCategory + ":");
+            ChoiceBox<String> choiceBox = new ChoiceBox<>(FXCollections.observableArrayList(options));
+            choiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                product.setSelectedOption(optionCategory, newVal);
+            });
+            card.getChildren().addAll(optionLabel, choiceBox);
+        });
+
         TextField quantityField = new TextField();
         quantityField.setPromptText("Insert quantity here");
         Button addButton = addToCartButton(product, quantityField);
@@ -152,14 +162,13 @@ public class StoreApplication extends Application {
 
     private Button addToCartButton(Product product, TextField quantityField) {
         Button addButton = new Button("Add to Cart");
-        addButton.setStyle("-fx-background-color: #00c0ff; -fx-text-fill: white;");
         addButton.setOnAction(event -> {
             try {
                 int quantity = Integer.parseInt(quantityField.getText());
                 cart.addProduct(product, quantity);
                 updateCartViewAndItemCount();
             } catch (NumberFormatException e) {
-                cart.showErrorDialog("Invalid Input", "Please enter a numeric quantity.");
+                cart.showErrorDialog("Invalid Input", "Please enter a valid quantity.");
             }
         });
         return addButton;
@@ -170,7 +179,6 @@ public class StoreApplication extends Application {
      *
      * @param inventory the inventory object being initialized
      * @return GridPane
-     * @see #initInventory()
      */
     private GridPane createProductListing(Inventory inventory) {
         GridPane productGrid = new GridPane();
@@ -360,6 +368,8 @@ public class StoreApplication extends Application {
         productImage.setFitHeight(50);
 
         Label nameLabel = new Label(cartItem.getProduct().getName());
+        Label optionsLabel = new Label(cartItem.getSelectedOptions());
+        optionsLabel.setStyle("-fx-font-size: 8px;");
         double finalCost = PricingUtil.getMarkedUpPrice(cartItem.getProduct()) * cartItem.getQuantity();
         Label priceLabel = new Label(String.format("$%.2f", finalCost));
 
@@ -381,7 +391,7 @@ public class StoreApplication extends Application {
             updateCartViewAndItemCount();
         });
 
-        itemBox.getChildren().addAll(productImage, nameLabel, quantitySpinner, priceLabel, removeItem);
+        itemBox.getChildren().addAll(productImage, nameLabel, optionsLabel, quantitySpinner, priceLabel, removeItem);
         return itemBox;
     }
 }

@@ -1,5 +1,6 @@
 package xyz.zuner.javafxassignment.objects;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +27,32 @@ public class Inventory {
      */
     public Inventory() {
         this.products = new HashMap<>();
+        initializeInventory();
+    }
+
+    private void initializeInventory() {
+        Product laptop = new Product("Laptop", "001", 999.99, 20);
+        laptop.addOption("Color", Arrays.asList("Black", "Silver", "White"));
+        laptop.addOption("Storage", Arrays.asList("256GB SSD", "512GB SSD", "1TB SSD"));
+
+        products.put(laptop.getUPC(), laptop);
+
+        Product smartphone = new Product("Smartphone", "002", 499.99, 12);
+        smartphone.addOption("Color", Arrays.asList("Black", "Blue", "Red"));
+        smartphone.addOption("Storage", Arrays.asList("64GB", "128GB", "256GB"));
+
+        products.put(smartphone.getUPC(), smartphone);
+
+        Product watch = new Product("Smartwatch", "003", 249.99, 6);
+        watch.addOption("Color", Arrays.asList("Black", "Blue", "Red"));
+
+        products.put(watch.getUPC(), watch);
+
+        Product camera = new Product("Camera", "004", 449.99, 25);
+        camera.addOption("Color", Arrays.asList("Black", "Silver", "White"));
+        camera.addOption("Storage", Arrays.asList("64GB", "128GB", "256GB"));
+
+        products.put(camera.getUPC(), camera);
     }
 
     /**

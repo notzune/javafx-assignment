@@ -23,6 +23,7 @@ public class CartItem {
     private int quantity;
     private Discount discount;
     private double discountedPrice;
+    private String selectedOptions;
 
     /**
      * Constructs a new CartItem with the given product and quantity.
@@ -33,6 +34,7 @@ public class CartItem {
     public CartItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
+        this.selectedOptions = product.getSelectedOptionsAsString();
     }
 
     /**
@@ -117,11 +119,23 @@ public class CartItem {
         this.discountedPrice = PricingUtil.getMarkedUpPrice(product) * quantity;
     }
 
+    /**
+     * Retrieves the selected options for the product in this cart item.
+     *
+     * @return String
+     */
+    public String getSelectedOptions() {
+        return selectedOptions;
+    }
+
+    /**
+     * Returns a string representation of this cart item, including the product details,
+     * selected options, and quantity.
+     *
+     * @return String
+     */
     @Override
     public String toString() {
-        return "CartItem{" +
-                "product=" + product +
-                ", quantity=" + quantity +
-                '}';
+        return String.format("%s x%d\nOptions: %s", product.getName(), quantity, selectedOptions);
     }
 }
