@@ -252,6 +252,8 @@ public class StoreApplication extends Application {
         printReceiptButton.setOnAction(event -> printReceipt());
         printReceiptButton.setVisible(false);
 
+        updateButtonStates();
+
         cartView.getChildren().addAll(
                 cartLabel,
                 discountCodeBox,
@@ -277,6 +279,20 @@ public class StoreApplication extends Application {
     private void handleCheckout() {
         proceedToCheckoutButton.setVisible(false);
         printReceiptButton.setVisible(true);
+    }
+
+    /**
+     * Updates the state of checkout and print receipt buttons based on the cart's content.
+     */
+    private void updateButtonStates() {
+        boolean isCartEmpty = cart.getItems().isEmpty();
+
+        proceedToCheckoutButton.setDisable(isCartEmpty);
+        printReceiptButton.setDisable(isCartEmpty);
+
+        // Optionally change the style to visually indicate that the button is disabled
+        proceedToCheckoutButton.setStyle(isCartEmpty ? "-fx-opacity: 0.5;" : "-fx-opacity: 1.0;");
+        printReceiptButton.setStyle(isCartEmpty ? "-fx-opacity: 0.5;" : "-fx-opacity: 1.0;");
     }
 
     /**
@@ -334,6 +350,7 @@ public class StoreApplication extends Application {
      */
     private void updateCartViewAndItemCount() {
         updateCartView();
+        updateButtonStates();
         itemCountLabel.setText(String.valueOf(cart.getItemCount()));
     }
 
