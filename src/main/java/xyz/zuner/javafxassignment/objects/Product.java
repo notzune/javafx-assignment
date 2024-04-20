@@ -1,8 +1,11 @@
 package xyz.zuner.javafxassignment.objects;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -137,15 +140,32 @@ public class Product {
      * @return image path (String)
      */
     public String getImagePath() {
-        String imagePath = "/assets/products/" + this.UPC + ".jpg";
+        String imagePath = "/assets/product_images/" + this.UPC + ".jpg";
 
         URL imageUrl = getClass().getResource(imagePath);
         if (imageUrl != null) {
             return imageUrl.toExternalForm();
         } else {
             // fallback to a default image if the specific product image is not found
-            imageUrl = getClass().getResource("/assets/products/no-image-available.jpg");
+            imageUrl = getClass().getResource("/assets/product_images/no-image-available.jpg");
             return imageUrl != null ? imageUrl.toExternalForm() : null;
+        }
+    }
+
+    /**
+     *
+     * Gets the product description from a text file, defaults to "No description found for this product."
+     *
+     * @return String representation of the description.
+     */
+    public String getDescription() {
+        try {
+            File desc = new File("/assets/product_descriptions/" + this.UPC + "_desc.txt");
+            Scanner scanner = new Scanner(desc);
+            System.out.println(scanner.next()); // prints to console for debugging purposes
+            return scanner.next();
+        } catch (FileNotFoundException e) {
+            return "No description found for this product.";
         }
     }
 

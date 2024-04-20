@@ -45,6 +45,7 @@ public class Inventory {
 
         Product watch = new Product("Smartwatch", "003", 249.99, 6);
         watch.addOption("Color", Arrays.asList("Black", "Blue", "Red"));
+        watch.addOption("Size", Arrays.asList("35mm", "40mm"));
 
         products.put(watch.getUPC(), watch);
 

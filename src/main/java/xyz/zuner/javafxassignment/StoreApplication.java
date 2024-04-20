@@ -2,6 +2,7 @@ package xyz.zuner.javafxassignment;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import xyz.zuner.javafxassignment.objects.*;
@@ -144,20 +145,41 @@ public class StoreApplication extends Application {
         priceLabel.setStyle("-fx-font-size: 14px;");
 
         product.getOptions().forEach((optionCategory, options) -> {
-            Label optionLabel = new Label("Choose " + optionCategory + ":");
-            ChoiceBox<String> choiceBox = new ChoiceBox<>(FXCollections.observableArrayList(options));
-            choiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-                product.setSelectedOption(optionCategory, newVal);
-            });
-            card.getChildren().addAll(optionLabel, choiceBox);
+            Label optionLabel = new Label(optionCategory + ":");
+
+            if (shouldUseSpinnerForOption(optionCategory)) {
+                Spinner<String> optionSpinner = new Spinner<>();
+                SpinnerValueFactory<String> valueFactory = new SpinnerValueFactory.ListSpinnerValueFactory<>(
+                        FXCollections.observableArrayList(options)
+                );
+                optionSpinner.setValueFactory(valueFactory);
+                optionSpinner.setEditable(true);
+
+                optionSpinner.valueProperty().addListener((obs, oldVal, newVal) -> {
+                    product.setSelectedOption(optionCategory, newVal);
+                });
+                card.getChildren().addAll(optionLabel, optionSpinner);
+            } else {
+                ChoiceBox<String> choiceBox = new ChoiceBox<>(FXCollections.observableArrayList(options));
+                choiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                    product.setSelectedOption(optionCategory, newVal);
+                });
+                card.getChildren().addAll(optionLabel, choiceBox);
+            }
         });
 
         TextField quantityField = new TextField();
         quantityField.setPromptText("Insert quantity here");
         Button addButton = addToCartButton(product, quantityField);
 
-        card.getChildren().addAll(productImage, nameLabel, priceLabel, addButton, quantityField);
+        Button showDesc = createProductInfoButton(product, card);
+
+        card.getChildren().addAll(productImage, nameLabel, priceLabel, addButton, quantityField, showDesc);
         return card;
+    }
+
+    private boolean shouldUseSpinnerForOption(String optionCategory) {
+        return "Size".equals(optionCategory) || "Storage".equals(optionCategory);
     }
 
     private Button addToCartButton(Product product, TextField quantityField) {
@@ -172,6 +194,26 @@ public class StoreApplication extends Application {
             }
         });
         return addButton;
+    }
+
+    private Button createProductInfoButton(Product product, VBox card) {
+        Button infoButton = new Button("Show Description");
+        infoButton.setOnAction(event -> {
+            Popup popup = new Popup();
+            VBox content = new VBox(10);
+            content.setStyle("-fx-padding: 10; -fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
+
+            Label descriptionLabel = new Label(product.getDescription());
+            content.getChildren().addAll(descriptionLabel);
+
+            popup.getContent().add(content);
+            popup.setAutoHide(true);
+            popup.setHideOnEscape(true);
+
+            Bounds boundsInScreen = card.localToScreen(card.getBoundsInLocal());
+            popup.show(card, boundsInScreen.getMinX(), boundsInScreen.getMaxY());
+        });
+        return infoButton;
     }
 
     /**
@@ -312,7 +354,7 @@ public class StoreApplication extends Application {
      */
     private void printReceipt() {
         Transaction transaction = new Transaction(cart.getAppliedDiscountCodes(), cart.getItems(), cart.getSubtotalCost(), cart.getTotalTax(), cart.getTotalDiscountAmount(), cart.getTotalCostAfterDiscounts());
-        String receipt = transaction.generateReceipt();
+        String receipt = transaction.processTransaction();
 
         Stage receiptStage = new Stage();
         receiptStage.initModality(Modality.APPLICATION_MODAL);

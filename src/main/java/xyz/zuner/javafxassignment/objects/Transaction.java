@@ -1,12 +1,17 @@
 package xyz.zuner.javafxassignment.objects;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Scanner;
 import java.util.UUID;
 
 /**
- * <p>
  * Represents a transaction for logging purchases and managing/keeping track of inventory
  * </p>
  * <br>
@@ -55,7 +60,7 @@ public class Transaction {
      *
      * @return The detailed receipt as a String.
      */
-    public String generateReceipt() {
+    private String generateReceipt() {
         StringBuilder receipt = new StringBuilder();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         receipt.append("Z's Discount Electronics!\n");
@@ -67,7 +72,8 @@ public class Transaction {
             receipt.append("- ").append(item.getProduct().getName())
                     .append("(").append(item.getSelectedOptions()).append(")")
                     .append(" x ").append(item.getQuantity())
-                    .append(": $").append(String.format("%.2f", item.getDiscountedPrice())).append("\n");
+                    .append(": $").append(String.format("%.2f", item.getDiscountedPrice())).append("\n")
+                    .append(item.getProduct().getDescription());
         }
 
         receipt.append("\nDiscounts:\n");
@@ -82,5 +88,43 @@ public class Transaction {
         receipt.append("\n!!!THANK YOU!!!\n");
 
         return receipt.toString();
+    }
+
+    /**
+     * Method for saving the receipt to a text file with a default path fallback.
+     *
+     * @param receipt The receipt content to save.
+     */
+    private void saveToDrive(String receipt) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the directory path where you want to save the receipt, or press ENTER to use the default location:");
+        String directory = scanner.nextLine();
+        Path path;
+
+        if (directory.isEmpty()) {
+            path = Paths.get(System.getProperty("user.home"), "javafx-receipts", id + ".txt");
+            System.out.println("No directory provided. Using default directory: " + path.getParent());
+        } else {
+            path = Paths.get(directory, id + ".txt");
+        }
+
+        try {
+            Files.createDirectories(path.getParent());
+            Files.writeString(path, receipt, StandardCharsets.UTF_8);
+            System.out.println("Receipt saved successfully to " + path);
+        } catch (IOException e) {
+            System.out.println("Error saving the receipt: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Generates a detailed receipt for the transaction and saves to a text file with a default path fallback.
+     *
+     * @return The detailed receipt as a String.
+     */
+    public String processTransaction() {
+        String receipt = generateReceipt();
+        saveToDrive(receipt);
+        return receipt;
     }
 }
