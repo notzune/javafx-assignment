@@ -10,11 +10,13 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.Popup;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import xyz.zuner.javafxassignment.objects.*;
 import xyz.zuner.javafxassignment.util.PricingUtil;
+
+import java.util.Objects;
 
 /**
  * <p>
@@ -32,12 +34,13 @@ import xyz.zuner.javafxassignment.util.PricingUtil;
  */
 public class StoreApplication extends Application {
 
+    private Inventory inventory = new Inventory();
     private Cart cart = new Cart();
-    private VBox cartView;
+    private VBox cartView, cartItemsContainer;
+    private ComboBox<String> categoryComboBox;
+    private GridPane productGrid;
     private ScrollPane cartScrollPane;
-    private VBox cartItemsContainer;
-    private Label subtotalLabel, taxLabel, discountsLabel, totalLabel, totalDiscountLabel;
-    private Label itemCountLabel;
+    private Label itemCountLabel, subtotalLabel, taxLabel, discountsLabel, totalLabel, totalDiscountLabel;
 
     // buttons for checkout and printing receipt
     private Button proceedToCheckoutButton;
@@ -52,25 +55,19 @@ public class StoreApplication extends Application {
      */
     @Override
     public void start(Stage stage) {
-        Inventory inventory = new Inventory();
-
         BorderPane root = new BorderPane();
-        // create header
-        itemCountLabel = new Label("0");
-        itemCountLabel.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-padding: 3px;");
+
         root.setTop(createHeader());
-
-        // create product listing
-        root.setCenter(createProductListing(inventory));
-
-        // create shopping cart
-        this.cartView = createCartView();
-        root.setRight(cartView);
+        root.setCenter(createProductListing());
+        root.setRight(createCartView());
 
         Scene scene = new Scene(root, 960, 540);
-        stage.setTitle("Electronics Store");
+        stage.setTitle("Z's Discount Electronics Store");
         stage.setScene(scene);
         stage.show();
+
+        // populate all products initially
+        updateProductGrid(null);
     }
 
     /**
@@ -79,46 +76,75 @@ public class StoreApplication extends Application {
      * @return HBox
      */
     private HBox createHeader() {
-        HBox header = new HBox();
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
         header.setPadding(new Insets(15));
-        header.setAlignment(Pos.CENTER);
-        Label title = new Label("Z's Discount Electronics Store!");
-        title.setAlignment(Pos.CENTER);
-        title.setStyle("-fx-text-fill: #279f00; -fx-font-weight: bold; -fx-font-size: 30px");
 
-        Label cartIcon = new Label("\uD83D\uDED2"); // unicode for shopping cart
-        cartIcon.setStyle("-fx-font-size: 24px;");
+        Label sortLabel = new Label("Sort by category:");
+        categoryComboBox = new ComboBox<>(FXCollections.observableArrayList(inventory.getCategories()));
+        categoryComboBox.getItems().add(0, "All Products");
+        categoryComboBox.getSelectionModel().select(0);
+        categoryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> updateProductGrid(newVal));
 
-        Button cartButton = new Button("", cartIcon);
-        cartButton.setGraphic(new VBox(cartIcon, itemCountLabel)); // stack cart icon and item count badge
-        cartButton.setStyle("-fx-background-color: transparent;");
-        cartButton.setContentDisplay(ContentDisplay.TOP);
-        cartButton.setOnAction(event -> toggleCartVisibility());
+        StackPane cartIconStack = createCartIcon();
+        Button cartButton = new Button();
+        cartButton.setGraphic(cartIconStack);
+        cartButton.setStyle("-fx-background-color: transparent;"); // Make the button transparent
+        cartButton.setOnAction(e -> toggleCartVisibility()); // Use this to toggle the visibility of the cart
 
-        HBox rightHeader = new HBox(cartButton);
-        rightHeader.setAlignment(Pos.CENTER_RIGHT);
-
-        HBox.setHgrow(rightHeader, Priority.ALWAYS);
-        header.getChildren().addAll(title, rightHeader);
-
+        header.getChildren().addAll(sortLabel, categoryComboBox, cartButton);
         return header;
     }
 
-//    /**
-//     * Initializes the store's inventory.
-//     *
-//     * @return Inventory
-//     */
-//    private Inventory initInventory() {
-//        Inventory inventory = new Inventory();
-//
-//        inventory.addOrUpdateProduct(new Product("Laptop", "001", 999.99, 20));
-//        inventory.addOrUpdateProduct(new Product("Smartphone", "002", 599.99, 10));
-//        inventory.addOrUpdateProduct(new Product("Smartwatch", "003", 249.99, 6));
-//        inventory.addOrUpdateProduct(new Product("Camera", "004", 449.99, 25));
-//
-//        return inventory;
-//    }
+    private StackPane createCartIcon() {
+        Label cartIcon = new Label("\uD83D\uDED2");
+        cartIcon.setStyle("-fx-font-size: 24px;");
+
+        itemCountLabel = new Label("0");
+        itemCountLabel.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-padding: 3px; -fx-font-size: 10px; -fx-border-radius: 50%;");
+        itemCountLabel.setAlignment(Pos.TOP_RIGHT);
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(cartIcon, itemCountLabel);
+        stackPane.setAlignment(Pos.TOP_RIGHT);
+
+        return stackPane;
+    }
+
+    /**
+     * Updates the product grid for each category.
+     *
+     * @param category the category to display.
+     */
+    private void updateProductGrid(String category) {
+        productGrid.getChildren().clear();
+        int row = 0, col = 0;
+        for (Product product : category == null || category.equals("All Products") ? inventory.getAllProducts() : inventory.getProductsByCategory(category)) {
+            if (col == 3) {
+                col = 0;
+                row++;
+            }
+            productGrid.add(createProductCard(product), col++, row);
+        }
+    }
+
+    /**
+     * Creates a listing for a product if it is added to the inventory.
+     *
+     * @return GridPane
+     */
+    private ScrollPane createProductListing() {
+        productGrid = new GridPane();
+        productGrid.setHgap(10);
+        productGrid.setVgap(10);
+        productGrid.setPadding(new Insets(10));
+
+        ScrollPane scrollPane = new ScrollPane(productGrid);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        return scrollPane;
+    }
 
     /**
      * Creates the card to display the product in the cart.
@@ -139,6 +165,8 @@ public class StoreApplication extends Application {
 
         Label nameLabel = new Label(product.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #333;");
+
+        Label categoryLabel = new Label("Category: " + product.getCategory());
 
         double displayPrice = PricingUtil.getMarkedUpPrice(product);
         Label priceLabel = new Label(String.format("$%.2f", displayPrice));
@@ -174,7 +202,16 @@ public class StoreApplication extends Application {
 
         Button showDesc = createProductInfoButton(product, card);
 
-        card.getChildren().addAll(productImage, nameLabel, priceLabel, addButton, quantityField, showDesc);
+        card.getChildren().addAll(
+                productImage,
+                nameLabel,
+                categoryLabel,
+                priceLabel,
+                addButton,
+                quantityField,
+                showDesc
+        );
+
         return card;
     }
 
@@ -186,11 +223,23 @@ public class StoreApplication extends Application {
         Button addButton = new Button("Add to Cart");
         addButton.setOnAction(event -> {
             try {
-                int quantity = Integer.parseInt(quantityField.getText());
-                cart.addProduct(product, quantity);
+                if (quantityField.getText().trim().isEmpty()) {
+                    // if empty, assume default quantity of 1
+                    cart.addProduct(product, 1);
+                } else {
+                    int quantity = Integer.parseInt(quantityField.getText().trim());
+                    if (quantity >= 1) {
+                        cart.addProduct(product, quantity);
+                    } else {
+                        // if the quantity is less than 1, show an error dialog
+                        throw new IllegalArgumentException("Please enter a quantity greater than zero.");
+                    }
+                }
                 updateCartViewAndItemCount();
             } catch (NumberFormatException e) {
-                cart.showErrorDialog("Invalid Input", "Please enter a valid quantity.");
+                cart.showErrorDialog("Invalid Input", "Please enter a valid number.");
+            } catch (IllegalArgumentException e) {
+                cart.showErrorDialog("Invalid Input", e.getMessage());
             }
         });
         return addButton;
@@ -203,7 +252,7 @@ public class StoreApplication extends Application {
             VBox content = new VBox(10);
             content.setStyle("-fx-padding: 10; -fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
 
-            Label descriptionLabel = new Label(product.getDescription());
+            Label descriptionLabel = new Label(product.getDescription() + "\nUPC: #" + product.getUPC());
             content.getChildren().addAll(descriptionLabel);
 
             popup.getContent().add(content);
@@ -214,37 +263,6 @@ public class StoreApplication extends Application {
             popup.show(card, boundsInScreen.getMinX(), boundsInScreen.getMaxY());
         });
         return infoButton;
-    }
-
-    /**
-     * Creates a listing for a product if it is added to the inventory.
-     *
-     * @param inventory the inventory object being initialized
-     * @return GridPane
-     */
-    private GridPane createProductListing(Inventory inventory) {
-        GridPane productGrid = new GridPane();
-        productGrid.setHgap(15);
-        productGrid.setVgap(15);
-        productGrid.setPadding(new Insets(15));
-
-        int column = 0;
-        int row = 0;
-
-        for (Product product : inventory.getProducts().values()) {
-            VBox productCard = createProductCard(product);
-
-            productGrid.add(productCard, column, row);
-            column++;
-
-            // if the column reaches a certain number, increase the row count and reset the column count
-            if (column == 3) {
-                column = 0;
-                row++;
-            }
-        }
-
-        return productGrid;
     }
 
     /**

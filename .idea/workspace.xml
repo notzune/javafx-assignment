@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69a73cde-7116-42a4-9645-e0d49f717e51" name="Changes" comment="chore: add todo to fix discount code handling&#10;&#10;certain codes dont work properly, and i need to add a method to clear the discounts">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/product_descriptions/001_desc.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/product_descriptions/002_desc.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/StoreApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/xyz/zuner/javafxassignment/objects/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/products/001.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/product_images/001.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/products/002.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/product_images/002.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/products/003.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/product_images/003.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/products/004.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/product_images/004.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/products/no-image-available.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/product_images/no-image-available.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +160,9 @@
       <workItem from="1711726086524" duration="131000" />
       <workItem from="1712840732732" duration="11272000" />
       <workItem from="1713461996544" duration="1971000" />
-      <workItem from="1713543116533" duration="4477000" />
+      <workItem from="1713543116533" duration="4940000" />
+      <workItem from="1713818784140" duration="34000" />
+      <workItem from="1713988590504" duration="11187000" />
     </task>
     <task id="LOCAL-00001" summary="feat: remove starter template classes">
       <option name="closed" value="true" />

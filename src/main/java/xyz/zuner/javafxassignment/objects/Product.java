@@ -30,6 +30,7 @@ public class Product {
     private double price; // manufacturer's price (MSRP)
     private HashMap<String, List<String>> options;
     private HashMap<String, String> selectedOptions;
+    private String category;
 
     /**
      * Instantiates a new product object
@@ -38,13 +39,14 @@ public class Product {
      * @param UPC   the Universal Product Code
      * @param price the manufacturer's price of the object
      */
-    public Product(String name, String UPC, double price, int initialQuantity) {
+    public Product(String name, String UPC, double price, int initialQuantity, String category) {
         this.name = name;
         this.UPC = UPC;
         this.price = price;
         this.stock = initialQuantity;
         this.options = new HashMap<>();
         this.selectedOptions = new HashMap<>();
+        this.category = category;
     }
 
     /**
@@ -153,7 +155,6 @@ public class Product {
     }
 
     /**
-     *
      * Gets the product description from a text file, defaults to "No description found for this product."
      *
      * @return String representation of the description.
@@ -173,7 +174,7 @@ public class Product {
      * Adds a selection option for the product.
      *
      * @param optionCategory the category of the option, e.g., "Color", "Size".
-     * @param optionValues a list of values available for this option category.
+     * @param optionValues   a list of values available for this option category.
      */
     public void addOption(String optionCategory, List<String> optionValues) {
         options.put(optionCategory, optionValues);
@@ -192,7 +193,7 @@ public class Product {
      * Sets the selected option for a given category.
      *
      * @param optionCategory the category of the option where the selection is being made.
-     * @param optionValue the value of the option that is being selected within the category.
+     * @param optionValue    the value of the option that is being selected within the category.
      */
     public void setSelectedOption(String optionCategory, String optionValue) {
         selectedOptions.put(optionCategory, optionValue);
@@ -209,6 +210,14 @@ public class Product {
                 .collect(Collectors.joining(", "));
     }
 
+    /**
+     * Returns a string representation of the product's category.
+     *
+     * @return String
+     */
+    public String getCategory() {
+        return category;
+    }
 
     /**
      * Checks if the given UPC matches the product's UPC.
